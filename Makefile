@@ -58,6 +58,6 @@ deploy:
 
 clean:
 	$(PYTHON) setup.py clean
-	rm -rf build/ MANIFEST dist build my_program.egg-info deb_dist
+	rm -rf build/ MANIFEST dist build scrapeo.egg-info deb_dist
 	find . -name '*.pyc' -delete
 

@@ -4,24 +4,24 @@
 from setuptools import setup, find_packages
 
 
-setup(name='my_program',
+setup(name='scrapeo',
       version='0.0.1',
       author='My Name',
       author_email='my@mail.com',
-      url='http://www.my_program.org',
-      download_url='http://www.my_program.org/files/',
-      description='Short description of my_program...',
-      long_description='Short description of my_program...',
+      url='http://www.scrapeo.org',
+      download_url='http://www.scrapeo.org/files/',
+      description='Short description of scrapeo...',
+      long_description='Short description of scrapeo...',
 
       packages = find_packages(),
       include_package_data = True,
       package_data = {
         '': ['*.txt', '*.rst'],
-        'my_program': ['data/*.html', 'data/*.css'],
+        'scrapeo': ['data/*.html', 'data/*.css'],
       },
       exclude_package_data = { '': ['README.txt'] },
       
-      scripts = ['bin/my_program'],
+      scripts = ['bin/scrapeo'],
       
       keywords='python tools utils internet www',
       license='GPL',

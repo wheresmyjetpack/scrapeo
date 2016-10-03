@@ -35,10 +35,10 @@ Start template for python package.
 
         .
         |-- bin
-        |   `-- my_program
+        |   `-- scrapeo
         |-- docs
         |   `-- doc.txt
-        |-- my_program
+        |-- scrapeo
         |   |-- data
         |   |   `-- some_data.html
         |   |-- submodule

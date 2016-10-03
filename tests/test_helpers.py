@@ -3,7 +3,7 @@
 
 import unittest
 
-from my_program.helpers import fn
+from scrapeo.helpers import fn
 
 
 class Test(unittest.TestCase):
@@ -17,8 +17,8 @@ class Test(unittest.TestCase):
         
     #def test_doctest(self):
         #import doctest
-        #import my_program.utils
-        #doctest.testmod(my_program.utils)
+        #import scrapeo.utils
+        #doctest.testmod(scrapeo.utils)
 
 
 if __name__ == "__main__":
