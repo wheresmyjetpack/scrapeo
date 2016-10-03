@@ -2,6 +2,7 @@
 
 import unittest
 import os
+import re
 
 from scrapeo.core import Scrapeo
 
@@ -20,3 +21,9 @@ class ScrapeoTest(unittest.TestCase):
 
     def test_gets_content_from_meta_tag(self):
         self.assertEqual('The description', self.scrapeo.element_text('meta', name='description'))
+
+    def test_gets_canonical_href_from_link(self):
+        self.assertEqual('http://example.com', self.scrapeo.element_text('link', seo_attr='href', rel='canonical'))
+
+    def test_gets_meta_charset(self):
+        self.assertEqual('UTF-8', self.scrapeo.element_text('meta', seo_attr='charset'))

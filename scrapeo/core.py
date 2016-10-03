@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import re
 from bs4 import BeautifulSoup
 
 class Scrapeo(object):
@@ -10,13 +11,14 @@ class Scrapeo(object):
     """Public
     """
     def element_text(self, keyword, **kwargs):
-        element = self.__find_tag(keyword, **kwargs)
+        seo_attr = kwargs.pop('seo_attr', None)
+        element = self.__find_tag(keyword, seo_attr=seo_attr, **kwargs)
         return self.__relevant_text(element)
 
     """Private
     """
-    def __find_tag(self, keyword, **kwargs):
-        return self.dom_parser.find(keyword, **kwargs)
+    def __find_tag(self, keyword, seo_attr=None, **kwargs):
+        return self.dom_parser.find(keyword, seo_attr=seo_attr, **kwargs)
 
     def __relevant_text(self, node):
         return node.relevant_text()
@@ -31,21 +33,37 @@ class DomNavigator(object):
     """Public
     """
     def find(self, keyword, list_all=False, **kwargs):
+        seo_attr = kwargs.pop('seo_attr', None)
+        ele_attrs = kwargs
         if list_all:
-            return self.dom.find_all(keyword, attrs=kwargs)
+            return self.dom.find_all(keyword, attrs=ele_attrs)
         else:
-            return HTMLElement(self.dom.find(keyword, attrs=kwargs))
+            return self.__search_for(keyword, search_attr=seo_attr, **ele_attrs)
 
     """Private
     """
+    def __search_for(self, keyword, search_attr=None, **kwargs):
+        if search_attr and not any(kwargs):
+            # assume the tag contains only one attribute, which is the one we're interested in
+            kwargs[search_attr] = re.compile('.*')
+        return self.__html_element(self.dom.find(keyword, attrs=kwargs), search_attr)
+
     def __parse(self, html):
         return self.parser(html, 'html.parser')
 
+    def __html_element(self, tag, seo_attr):
+        return HTMLElement(tag, seo_attr)
+
+
 
 class HTMLElement(object):
+    """Wrapper for BeautifulSoup Tag
+    Determines relevant SEO properties and attributes for a particular tag
+    """
 
-    def __init__(self, element):
+    def __init__(self, element, seo_attr=None):
         self.element = element
+        self.seo_attr = seo_attr
 
     """Public
     """
@@ -56,16 +74,18 @@ class HTMLElement(object):
     """
     def __determine_seo_text(self):
         if self.__is_empty_element():
-            return self.__meta_tag_content()
+            return self.__closed_tag_contents()
         return self.__node_text()
 
     def __node_text(self):
         return self.element.text
 
-    def __meta_tag_content(self, attr=None):
-        if attr:
-            return self.element[attr]
+    def __closed_tag_contents(self):
+        if self.seo_attr:
+            # Return the text value of the relevant seo attribute
+            return self.element[self.seo_attr]
         else:
+            # Default is for the typical meta tag content attribute
             return self.element['content']
 
     def __is_empty_element(self):
