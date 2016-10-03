@@ -28,7 +28,7 @@ class Scrapeo(object):
 class DomNavigator(object):
 
     def __init__(self, html, parser=None, parser_type='html.parser'):
-        self.parser = parser or BeautifulSoup
+        self.parser = parser or self.__default_parser()
         self.dom = self.__parse(html, parser_type)
 
     """Public
@@ -51,6 +51,9 @@ class DomNavigator(object):
 
     def __parse(self, html, parser_type):
         return self.parser(html, parser_type)
+
+    def __default_parser(self):
+        return BeautifulSoup
 
 
 class SEOAnalyzer(object):
