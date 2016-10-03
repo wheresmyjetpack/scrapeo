@@ -5,40 +5,41 @@ from bs4 import BeautifulSoup
 
 class Scrapeo(object):
 
-    def __init__(self, html, dom_parser=None):
+    def __init__(self, html, dom_parser=None, analyzer=None):
         self.dom_parser = dom_parser or DomNavigator(html)
+        self.analyzer = analyzer or SEOAnalyzer()
 
     """Public
     """
-    def element_text(self, keyword, **kwargs):
-        seo_attr = kwargs.pop('seo_attr', None)
-        element = self.__find_tag(keyword, seo_attr=seo_attr, **kwargs)
-        return self.__relevant_text(element)
+    def seo_text(self, keyword, **kwargs):
+        element = self.__find_tag(keyword, **kwargs)
+        seo_attr = kwargs.get('seo_attr', None)
+        return self.__relevant_text(element, seo_attr=seo_attr)
 
     """Private
     """
-    def __find_tag(self, keyword, seo_attr=None, **kwargs):
-        return self.dom_parser.find(keyword, seo_attr=seo_attr, **kwargs)
+    def __find_tag(self, keyword, **kwargs):
+        return self.dom_parser.find(keyword, **kwargs)
 
-    def __relevant_text(self, node):
-        return node.relevant_text()
+    def __relevant_text(self, node, seo_attr=None):
+        return self.analyzer.relevant_text(node, seo_attr=seo_attr)
 
 
 class DomNavigator(object):
 
-    def __init__(self, html, parser=None):
+    def __init__(self, html, parser=None, parser_type='html.parser'):
         self.parser = parser or BeautifulSoup
-        self.dom = self.__parse(html)
+        self.dom = self.__parse(html, parser_type)
 
     """Public
     """
     def find(self, keyword, list_all=False, **kwargs):
-        seo_attr = kwargs.pop('seo_attr', None)
+        search_attr = kwargs.pop('seo_attr', None)
         ele_attrs = kwargs
         if list_all:
             return self.dom.find_all(keyword, attrs=ele_attrs)
         else:
-            return self.__search_for(keyword, search_attr=seo_attr, **ele_attrs)
+            return self.__search_for(keyword, search_attr=search_attr, **ele_attrs)
 
     """Private
     """
@@ -46,67 +47,39 @@ class DomNavigator(object):
         if search_attr and not any(kwargs):
             # assume the tag contains only one attribute, which is the one we're interested in
             kwargs[search_attr] = re.compile('.*')
-        return self.__html_element(self.dom.find(keyword, attrs=kwargs), search_attr)
+        return self.dom.find(keyword, attrs=kwargs)
 
-    def __parse(self, html):
-        return self.parser(html, 'html.parser')
-
-    def __html_element(self, tag, seo_attr):
-        return HTMLElement(tag, seo_attr)
+    def __parse(self, html, parser_type):
+        return self.parser(html, parser_type)
 
 
+class SEOAnalyzer(object):
 
-class HTMLElement(object):
-    """Wrapper for BeautifulSoup Tag
-    Determines relevant SEO properties and attributes for a particular tag
-    """
-
-    def __init__(self, element, seo_attr=None):
-        self.element = element
-        self.seo_attr = seo_attr
+    def __init__(self):
+        pass
 
     """Public
     """
-    def relevant_text(self):
-        return self.__determine_seo_text()
+    def relevant_text(self, element, seo_attr=None):
+        return self.__determine_seo_text(element, seo_attr)
 
     """Private
     """
-    def __determine_seo_text(self):
-        if self.__is_empty_element():
-            return self.__closed_tag_contents()
-        return self.__node_text()
+    def __determine_seo_text(self, element, seo_attr):
+        if self.__is_empty_element(element):
+            return self.__closed_tag_contents(element, seo_attr)
+        return self.__node_text(element)
 
-    def __node_text(self):
-        return self.element.text
+    def __node_text(self, element):
+        return element.text
 
-    def __closed_tag_contents(self):
-        if self.seo_attr:
+    def __closed_tag_contents(self, element, seo_attr):
+        if seo_attr:
             # Return the text value of the relevant seo attribute
-            return self.element[self.seo_attr]
+            return element[seo_attr]
         else:
             # Default is for the typical meta tag content attribute
-            return self.element['content']
+            return element['content']
 
-    def __is_empty_element(self):
-        return self.element.is_empty_element
-
-
-class WebScraper(object):
-
-    def __init__(self, http_client):
-        self.http_client = http_client
-
-    """Public
-    """
-    def scrape(self, url):
-        req = self.__http_get(url)
-        return self.__document_from(req)
-
-    """Private
-    """
-    def __http_get(self, url):
-        return self.http_client.get(url)
-
-    def __document_from(self, request):
-        return request.text
+    def __is_empty_element(self, element):
+        return element.is_empty_element
