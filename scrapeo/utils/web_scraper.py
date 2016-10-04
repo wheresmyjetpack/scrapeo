@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+import requests
+
 class WebScraper(object):
 
-    def __init__(self, http_client):
-        self.http_client = http_client
+    def __init__(self, http_client=None):
+        self.http_client = http_client or self.__default_http_client()
 
     """Public
     """
@@ -18,3 +20,6 @@ class WebScraper(object):
 
     def __document_from(self, request):
         return request.text
+
+    def __default_http_client(self):
+        return requests
