@@ -4,37 +4,41 @@
 from setuptools import setup, find_packages
 
 
-setup(name='scrapeo',
-      version='0.0.1',
-      author='My Name',
-      author_email='my@mail.com',
-      url='http://www.scrapeo.org',
-      download_url='http://www.scrapeo.org/files/',
-      description='Short description of scrapeo...',
-      long_description='Short description of scrapeo...',
+setup(
+        name='scrapeo',
+        version='0.0.1.dev1',
+        author='Paul Morris',
+        author_email='wheresmyjetpack03@gmail.com',
+        #url='http://www.scrapeo.org',
+        #download_url='http://www.scrapeo.org/files/',
+        description='Command-line SEO web scraping tool',
+        long_description='Provides a command-line client for scraping relevant SEO data from webpages.',
 
-      packages = find_packages(),
-      include_package_data = True,
-      package_data = {
-        '': ['*.txt', '*.rst'],
-        'scrapeo': ['data/*.html', 'data/*.css'],
-      },
-      exclude_package_data = { '': ['README.txt'] },
-      
-      scripts = ['bin/scrapeo'],
-      
-      keywords='python tools utils internet www',
-      license='GPL',
-      classifiers=['Development Status :: 5 - Production/Stable',
-                   'Natural Language :: English',
-                   'Operating System :: OS Independent',
-                   'Programming Language :: Python :: 2',
-                   'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
-                   'License :: OSI Approved :: GNU Affero General Public License v3',
-                   'Topic :: Internet',
-                   'Topic :: Internet :: WWW/HTTP',
-                  ],
-                  
-      #setup_requires = ['python-stdeb', 'fakeroot', 'python-all'],
-      install_requires = ['setuptools'],
-     )
+        packages = find_packages(),
+        include_package_data = True,
+        package_data = {
+            '': ['*.txt', '*.rst'],
+            'scrapeo': ['data/*.html', 'data/*.css'],
+            },
+        entry_points = {
+            'console_scripts': [
+                'scrapeo = scrapeo.main:main'
+                ]
+            },
+        exclude_package_data = { '': ['README.txt'] },
+        keywords='python tools utils internet www',
+        license='GPL',
+        classifiers=['Development Status :: 2 - Pre-Alpha',
+            'Natural Language :: English',
+            'Operating System :: OS Independent',
+            'Intended Audience :: Developers',
+            'Programming Language :: Python :: 3',
+            'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
+            'License :: OSI Approved :: GNU Affero General Public License v3',
+            'Topic :: Internet',
+            'Topic :: Internet :: WWW/HTTP',
+            ],
+
+        #setup_requires = ['python-stdeb', 'fakeroot', 'python-all'],
+        install_requires = ['setuptools', 'beautifulsoup4', 'requests'],
+        )
