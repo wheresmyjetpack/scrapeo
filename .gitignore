@@ -1,4 +1,2 @@
 *.pyc
 .cache/*
-scrapeo.egg-info/
-scrapeo.egg-info/*

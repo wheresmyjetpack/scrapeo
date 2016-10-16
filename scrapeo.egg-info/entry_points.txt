@@ -1,0 +1,3 @@
+[console_scripts]
+scrapeo = scrapeo.main:main
+

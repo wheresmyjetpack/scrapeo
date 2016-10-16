@@ -39,6 +39,5 @@ setup(
             'Topic :: Internet :: WWW/HTTP',
             ],
 
-        #setup_requires = ['python-stdeb', 'fakeroot', 'python-all'],
         install_requires = ['setuptools', 'beautifulsoup4', 'requests'],
         )

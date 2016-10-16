@@ -1,0 +1,17 @@
+README.rst
+setup.py
+scrapeo/__init__.py
+scrapeo/core.py
+scrapeo/helpers.py
+scrapeo/main.py
+scrapeo.egg-info/PKG-INFO
+scrapeo.egg-info/SOURCES.txt
+scrapeo.egg-info/dependency_links.txt
+scrapeo.egg-info/entry_points.txt
+scrapeo.egg-info/requires.txt
+scrapeo.egg-info/top_level.txt
+scrapeo/utils/__init__.py
+scrapeo/utils/web_scraper.py
+tests/__init__.py
+tests/test_Scrapeo.py
+tests/test_helpers.py

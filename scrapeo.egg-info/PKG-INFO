@@ -1,0 +1,20 @@
+Metadata-Version: 1.1
+Name: scrapeo
+Version: 0.0.1.dev1
+Summary: Command-line SEO web scraping tool
+Home-page: UNKNOWN
+Author: Paul Morris
+Author-email: wheresmyjetpack03@gmail.com
+License: GPL
+Description: Provides a command-line client for scraping relevant SEO data from webpages.
+Keywords: python tools utils internet www
+Platform: UNKNOWN
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Topic :: Internet
+Classifier: Topic :: Internet :: WWW/HTTP
