@@ -6,7 +6,7 @@ import sys
 from core import Scrapeo, DomNavigator, SEOAnalyzer
 from utils import web_scraper
 
-if __name__ == '__main__':
+def main():
     # intitialize the group_default variable
     group_default = None
     if len(sys.argv[1:]) > 1:
@@ -31,11 +31,17 @@ if __name__ == '__main__':
 
     parser_meta = subparsers.add_parser('meta', help='meta help')
     parser_meta.add_argument('-a', '--attr',
-            nargs='?', metavar='attribute:value', dest='metatag_attr', const='name:description', default=meta_default)
+            nargs='?', metavar='attribute', dest='metatag_attr', const='name', default=meta_default)
+    parser_meta.add_argument('-v', '--val',
+            nargs='?', metavar='value', dest='metatag_val', const='description', default=meta_default)
     parser_meta.add_argument('-t', '--title',
             dest='title_tag', action='store_true', default=title_default)
 
     # URL positional argument
-    #argparser.add_argument('url')
+    argparser.add_argument('url')
     args = argparser.parse_args()
     #print(args)
+
+    html = web_scraper.WebScraper().scrape(args.url)
+    scrapeo = Scrapeo(html)
+    print(scrapeo.seo_text('meta', **{args.metatag_attr: args.metatag_val}))

@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 class Scrapeo(object):
 
     def __init__(self, html, dom_parser=None, analyzer=None):
-        self.dom_parser = dom_parser or DomNavigator(html)
+        self.dom_parser = dom_parser or self.__default_dom_parser()(html)
         self.analyzer = analyzer or SEOAnalyzer()
 
     """Public
@@ -23,6 +23,9 @@ class Scrapeo(object):
 
     def __relevant_text(self, node, seo_attr=None):
         return self.analyzer.relevant_text(node, seo_attr=seo_attr)
+
+    def __default_dom_parser(self):
+        return DomNavigator
 
 
 class DomNavigator(object):
