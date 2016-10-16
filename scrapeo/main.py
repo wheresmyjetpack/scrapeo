@@ -1,10 +1,8 @@
-#!/usr/bin/env python
-
 import argparse
 import sys
 
-from core import Scrapeo, DomNavigator, SEOAnalyzer
-from utils import web_scraper
+from .core import Scrapeo, DomNavigator, SEOAnalyzer
+from .utils import web_scraper
 
 def main():
     # intitialize the group_default variable
