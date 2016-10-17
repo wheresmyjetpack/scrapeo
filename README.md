@@ -4,8 +4,7 @@ python-package-template
 Start template for python package.  
 
 ### Usage ###
-1. Run `git clone git://github.com/vital-fadeev/python-package-template.git`
-2. Write Your nice code.
+1. Run `git clone git://github.com/wheresmyjetpack/scrapeo.git`
 
 
 ### Concept ###
@@ -33,21 +32,22 @@ Start template for python package.
 * **make deploy** - create vitrual environment
 
 
-        .
-        |-- bin
-        |   `-- scrapeo
         |-- docs
         |   `-- doc.txt
         |-- scrapeo
         |   |-- data
         |   |   `-- some_data.html
-        |   |-- submodule
-        |   |   `-- __init__.py
+        |   |-- utils
+        |   |   |-- __init__.py
+        |   |   |-- web_scraper.py
         |   |-- __init__.py
+        |   |-- core.py
+        |   |-- main.py
         |   |-- helpers.py
         |-- tests
         |   |-- __init__.py
         |   |-- test_helpers.py
+        |   |-- test_Scrapeo.py
         |-- Makefile
         |-- CHANGES.txt
         |-- LICENSE.txt
@@ -55,9 +55,3 @@ Start template for python package.
         |-- requirements-dev.txt
         |-- requirements.txt
         `-- setup.py
-
-
-Please, send ideas - [here](https://github.com/vital-fadeev/python-package-template/issues/new)  
-Send issues - [here](https://github.com/vital-fadeev/python-package-template/issues/new)  
-You find bug? - post it to me [here](https://github.com/vital-fadeev/python-package-template/issues/new)  
-
