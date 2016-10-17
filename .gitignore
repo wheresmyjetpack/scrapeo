@@ -1,2 +1,8 @@
 *.pyc
 .cache/*
+scrapeo.egg-info/
+scrapeo.egg-info/*
+dist/
+dist/*
+build/
+build/*
