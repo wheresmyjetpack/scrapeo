@@ -19,7 +19,7 @@ rpm:
 	$(PYTHON) setup.py bdist_rpm --post-install=rpm/postinstall --pre-uninstall=rpm/preuninstall
 
 install:
-	$(PYTHON) setup.py install --install-layout=deb
+	$(PYTHON) setup.py install
 
 test:
 	unit2 discover -s tests -t .
@@ -53,7 +53,7 @@ deploy:
 
 	# setup venv
 	rm -rf $(VENV)
-	virtualenv --no-site-packages $(VENV)
+	virtualenv -p $(PYTHON) --no-site-packages $(VENV)
 	$(VENV)/bin/pip install $(SDIST)
 
 clean:
