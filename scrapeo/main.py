@@ -5,12 +5,6 @@ from .core import Scrapeo, DomNavigator, SEOAnalyzer
 from .utils import web_scraper
 
 def main():
-    # intitialize the group_default variable
-    group_default = None
-    if len(sys.argv[1:]) > 1:
-        # supress defaults if any options provided
-        group_default = argparse.SUPPRESS
-
     argparser = argparse.ArgumentParser(
         prog='scrapeo',
         description='A command-line web scraper and SEO analysis tool'
@@ -23,23 +17,25 @@ def main():
     parser_content.add_argument('-H', '--heading', nargs='?', dest='heading_type', const='h1')
 
     # meta sub-command
-    # determine defaults
-    meta_default = group_default or 'name:description'
-    title_default = group_default or True
-
     parser_meta = subparsers.add_parser('meta', help='meta help')
     parser_meta.add_argument('-a', '--attr',
-            nargs='?', metavar='attribute', dest='metatag_attr', const='name', default=meta_default)
+            nargs='?', metavar='attribute', dest='metatag_attr', const='name', default='name')
     parser_meta.add_argument('-v', '--val',
-            nargs='?', metavar='value', dest='metatag_val', const='description', default=meta_default)
+            nargs='?', metavar='value', dest='metatag_val', const='description')
     parser_meta.add_argument('-t', '--title',
-            dest='title_tag', action='store_true', default=title_default)
+            dest='title_tag', action='store_true')
 
     # URL positional argument
     argparser.add_argument('url')
     args = argparser.parse_args()
-    #print(args)
+    # DEBUG
+    print(args)
 
     html = web_scraper.WebScraper().scrape(args.url)
     scrapeo = Scrapeo(html)
-    print(scrapeo.seo_text('meta', **{args.metatag_attr: args.metatag_val}))
+
+    if args.metatag_val is not None:
+        print(scrapeo.seo_text('meta', **{args.metatag_attr: args.metatag_val}))
+
+    if args.title_tag:
+        print(scrapeo.seo_text('title'))
