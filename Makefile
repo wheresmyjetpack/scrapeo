@@ -2,7 +2,7 @@ PYTHON=`which python3`
 NAME=`python setup.py --name`
 VERSION=`python setup.py --version`
 SDIST=dist/$(NAME)-$(VERSION).tar.gz
-VENV=/tmp/venv
+VENV=$(HOME)/.virtualenvs/venv
 
 
 all: check test source deb
