@@ -60,7 +60,9 @@ def main():
     scrapeo = Scrapeo(html)
 
     # process command-line arguments
+    # meta subparser
     if args.command == 'meta':
+        # --attr, --val
         if args.metatag_val or args.metatag_attr:
             if not (args.metatag_val and args.metatag_attr):
                 print('The -a and -v options must both be provided')
@@ -68,15 +70,20 @@ def main():
                 print(scrapeo.get_text(
                       'meta', **{args.metatag_attr: args.metatag_val}))
 
+        # --description
         if args.meta_description:
             print(scrapeo.get_text('meta', name='description'))
 
+        # --title
         if args.title_tag:
             print(scrapeo.get_text('title'))
 
+        # --robots
         if args.robots_meta:
             print(scrapeo.get_text('meta', name='robots'))
 
+    # content subparser
     if args.command == 'content':
+        # --heading 
         if args.heading_type:
             print(scrapeo.get_text(args.heading_type))
