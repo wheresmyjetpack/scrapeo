@@ -11,8 +11,8 @@ setup(
         author_email='wheresmyjetpack03@gmail.com',
         #url='http://www.scrapeo.org',
         #download_url='http://www.scrapeo.org/files/',
-        description='Command-line SEO web scraping tool',
-        long_description='Provides a command-line client for scraping relevant SEO data from webpages.',
+        description='A command-line SEO web scraping / analysis tool',
+        long_description='Provides a command-line client for scraping and analyzing relevant SEO data from webpages.',
 
         packages = find_packages(),
         include_package_data = True,

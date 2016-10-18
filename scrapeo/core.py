@@ -11,17 +11,21 @@ class Scrapeo(object):
 
     """Public
     """
-    def seo_text(self, keyword, **kwargs):
+    def get_text(self, keyword, **kwargs):
+        """ Retrieve some portion of text from a node
+        Could be node text or the value of an element's attribute 
+        params--
+        keyword: dom search term, could be element name or attribute """
         element = self.__dom_search(keyword, **kwargs)
         seo_attr = kwargs.get('seo_attr', None)
-        return self.__relevant_text(element, seo_attr=seo_attr)
+        return self.__relevant_text(element, seo_attr)
 
     """Private
     """
     def __dom_search(self, keyword, **kwargs):
         return self.dom_parser.find(keyword, **kwargs)
 
-    def __relevant_text(self, node, seo_attr=None):
+    def __relevant_text(self, node, seo_attr):
         return self.analyzer.relevant_text(node, seo_attr=seo_attr)
 
     def __default_dom_parser(self):

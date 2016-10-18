@@ -1,34 +1,30 @@
-python-package-template
+Scrapeo
 =======================
 
-Start template for python package.  
+A command-line SEO web scraping / analysis tool
 
 ### Usage ###
 1. Run `git clone git://github.com/wheresmyjetpack/scrapeo.git`
 
 
 ### Concept ###
-* **One location for settings** - all settings specified in **setup.py** only
-* **Simple usage** - one command: **make**
+* Scrape and analyze elements like meta data and content from web pages
+* Provide a quick and easy-to-use tool for those who prefer command-line interfaces
+* Generate reports on a web page's SEO "health"
 
 
 ### Features ###
-* setup.py - all distutils, setuptools features
-* tests - unittest, pytest
-* .tar.gz - source generation
-* .deb generation
-* _.rpm generation_
-* virtualenv - install and put package into it
+* Installation via pip or make
 
 
 ### More commands ###
 * **make test** - run all tests
-* **make deb** - build Debian package
+* **make deb** - build Debian package (Incomplete)
 * **make source** - build source tarball
 * **make daily** - make daily snapshot
 * **make install** - install program
 * **make init** - install all requirements
-* **make clean** - clean project, remove *.pyc and other templorary files
+* **make clean** - clean project, remove *.pyc and other temporary files
 * **make deploy** - create vitrual environment
 
 
