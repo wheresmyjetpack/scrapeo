@@ -7,7 +7,7 @@ class Scrapeo(object):
 
     def __init__(self, html, dom_parser=None, analyzer=None):
         self.dom_parser = dom_parser or self.__default_dom_parser()(html)
-        self.analyzer = analyzer or SEOAnalyzer()
+        self.analyzer = analyzer or TextAnalyzer()
 
     """Public"""
     def get_text(self, search_term, seo_attr=None, **kwargs):
@@ -22,7 +22,8 @@ class Scrapeo(object):
         """
 
         # search the dom for the provided keyword
-        element = self.__dom_search(search_term, **kwargs)
+        element = self.__dom_search(search_term, search_attr=seo_attr,
+                                    **kwargs)
         return self.__relevant_text(element, seo_attr)
 
     """Private"""
@@ -43,8 +44,7 @@ class DomNavigator(object):
         self.dom = self.__parse(html, parser_type)
 
     """Public"""
-    def find(self, search_term, **kwargs):
-        search_attr = kwargs.pop('seo_attr', None)
+    def find(self, search_term, search_attr=None, **kwargs):
         ele_attrs = kwargs
         return self.__search_for(search_term, search_attr, **ele_attrs)
 
@@ -62,30 +62,30 @@ class DomNavigator(object):
         return BeautifulSoup
 
 
-class SEOAnalyzer(object):
+class TextAnalyzer(object):
 
     def __init__(self):
         pass
 
     """Public"""
     def relevant_text(self, element, seo_attr=None):
-        return self.__determine_seo_text(element, seo_attr)
+        return self.__determine_text(element, seo_attr)
 
     """Private"""
-    def __determine_seo_text(self, element, seo_attr):
+    def __determine_text(self, element, seo_attr):
         if self.__is_empty_element(element):
-            return self.__closed_tag_contents(element, seo_attr)
+            return self.__value_from_attr(element, seo_attr)
         return self.__node_text(element)
 
     def __node_text(self, element):
         return element.text
 
-    def __closed_tag_contents(self, element, seo_attr):
+    def __value_from_attr(self, element, seo_attr):
         if seo_attr:
-            # Return the text value of the relevant seo attribute
+            # Return the text value of the relevant attribute
             return element[seo_attr]
         else:
-            # Default is for the typical meta tag content attribute
+            # Default is for the meta tag content attribute
             return element['content']
 
     def __is_empty_element(self, element):
