@@ -43,16 +43,13 @@ class DomNavigator(object):
         self.dom = self.__parse(html, parser_type)
 
     """Public"""
-    def find(self, search_term, list_all=False, **kwargs):
+    def find(self, search_term, **kwargs):
         search_attr = kwargs.pop('seo_attr', None)
         ele_attrs = kwargs
-        if list_all:
-            return self.dom.find_all(search_term, attrs=ele_attrs)
-        else:
-            return self.__search_for(search_term, search_attr=search_attr, **ele_attrs)
+        return self.__search_for(search_term, search_attr, **ele_attrs)
 
     """Private"""
-    def __search_for(self, keyword, search_attr=None, **kwargs):
+    def __search_for(self, keyword, search_attr, **kwargs):
         if search_attr and not any(kwargs):
             # assume the tag contains only one attribute, which is the one we're interested in
             kwargs[search_attr] = re.compile('.*')
