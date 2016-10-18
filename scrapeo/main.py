@@ -32,6 +32,8 @@ parser_meta.add_argument('-t', '--title', dest='title_tag',
 parser_meta.add_argument('-d', '--description',
                          dest='meta_description',
                          action='store_true')
+parser_meta.add_argument('-r', '--robots', dest='robots_meta',
+                         action='store_true')
 
 # URL positional argument
 argparser.add_argument('url')
@@ -42,6 +44,7 @@ def main():
     print(args)
 
     url = args.url
+    # if the URL is missing the HTTP schema, add it
     try:
         html = web_scraper.WebScraper().scrape(url)
     except requests.exceptions.MissingSchema:
@@ -52,6 +55,7 @@ def main():
     # initialize scrapeo
     scrapeo = Scrapeo(html)
 
+    # process command-line arguments
     if args.metatag_val or args.metatag_attr:
         if not (args.metatag_val and args.metatag_attr):
             print('The -a and -v options must both be provided')
@@ -65,3 +69,6 @@ def main():
 
     if args.title_tag:
         print(scrapeo.get_text('title'))
+
+    if args.robots_meta:
+        print(scrapeo.get_text('meta', name='robots'))
