@@ -10,23 +10,24 @@ class Scrapeo(object):
         self.analyzer = analyzer or SEOAnalyzer()
 
     """Public"""
-    def get_text(self, search_term, **kwargs):
+    def get_text(self, search_term, seo_attr=None, **kwargs):
         """ Search the dom and retrieve some portion of text from one or more of the results
 
-        keyword -- abritrary term to search the dom for, typically an element name
+        search_term -- abritrary term to search the dom for, typically an element name
         keyword arguments:
         seo_attr -- specify the element's attribute to scrape the value from
 
-        Keyword arguments may be any number of HTML element attribute:value pairs used to
-        locate a particular tag
+        Additional keyword arguments may be any number of HTML element
+        attribute=value pairs used to locate a particular tag
         """
-        element = self.__dom_search(keyword, **kwargs)
-        seo_attr = kwargs.get('seo_attr', None)
+
+        # search the dom for the provided keyword
+        element = self.__dom_search(search_term, **kwargs)
         return self.__relevant_text(element, seo_attr)
 
     """Private"""
-    def __dom_search(self, keyword, **kwargs):
-        return self.dom_parser.find(keyword, **kwargs)
+    def __dom_search(self, search_term, **kwargs):
+        return self.dom_parser.find(search_term, **kwargs)
 
     def __relevant_text(self, node, seo_attr):
         return self.analyzer.relevant_text(node, seo_attr=seo_attr)
@@ -42,13 +43,13 @@ class DomNavigator(object):
         self.dom = self.__parse(html, parser_type)
 
     """Public"""
-    def find(self, keyword, list_all=False, **kwargs):
+    def find(self, search_term, list_all=False, **kwargs):
         search_attr = kwargs.pop('seo_attr', None)
         ele_attrs = kwargs
         if list_all:
-            return self.dom.find_all(keyword, attrs=ele_attrs)
+            return self.dom.find_all(search_term, attrs=ele_attrs)
         else:
-            return self.__search_for(keyword, search_attr=search_attr, **ele_attrs)
+            return self.__search_for(search_term, search_attr=search_attr, **ele_attrs)
 
     """Private"""
     def __search_for(self, keyword, search_attr=None, **kwargs):
