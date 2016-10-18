@@ -10,11 +10,12 @@ class Scrapeo(object):
         self.analyzer = analyzer or TextAnalyzer()
 
     """Public"""
-    def get_text(self, search_term, seo_attr=None, **kwargs):
+    def get_text(self, search_term, search_val=None, seo_attr=None, **kwargs):
         """ Search the dom and retrieve some portion of text from one or more of the results
 
         search_term -- abritrary term to search the dom for, typically an element name
         keyword arguments:
+        search_attr -- if specified, element must have this as an attribute
         seo_attr -- specify the element's attribute to scrape the value from
 
         Additional keyword arguments may be any number of HTML element
@@ -22,7 +23,8 @@ class Scrapeo(object):
         """
 
         # search the dom for the provided keyword
-        element = self.__dom_search(search_term, search_attr=seo_attr,
+        element = self.__dom_search(search_term,
+                                    search_val=search_val,
                                     **kwargs)
         return self.__relevant_text(element, seo_attr)
 
@@ -44,16 +46,21 @@ class DomNavigator(object):
         self.dom = self.__parse(html, parser_type)
 
     """Public"""
-    def find(self, search_term, search_attr=None, **kwargs):
+    def find(self, search_term, search_val=None, **kwargs):
         ele_attrs = kwargs
-        return self.__search_for(search_term, search_attr, **ele_attrs)
+        return self.__search_for(search_term, search_val, **ele_attrs)
 
     """Private"""
-    def __search_for(self, keyword, search_attr, **kwargs):
-        if search_attr and not any(kwargs):
-            # assume the tag contains only one attribute, which is the one we're interested in
-            kwargs[search_attr] = re.compile('.*')
-        return self.dom.find(keyword, attrs=kwargs)
+    def __search_for(self, keyword, search_val, **kwargs):
+        attrs = kwargs
+        if search_val and not any(kwargs):
+            return self.__search_by_value(keyword, search_val)
+        return self.dom.find(keyword, attrs=attrs)
+
+    def __search_by_value(self, keyword, value):
+        for tag in self.dom.find_all(keyword):
+            if value in tag.attrs.values():
+                return tag
 
     def __parse(self, html, parser_type):
         return self.parser(html, parser_type)

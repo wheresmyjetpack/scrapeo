@@ -64,8 +64,15 @@ def main():
     if args.command == 'meta':
         # --attr, --val
         if args.metatag_val or args.metatag_attr:
-            if not (args.metatag_val and args.metatag_attr):
-                print('The -a and -v options must both be provided')
+            # --val only
+            if args.metatag_val and not args.metatag_attr:
+                print(scrapeo.get_text('meta',
+                                       search_val=args.metatag_val))
+            # --attr only
+            elif args.metatag_attr and not args.metatag_val:
+                print(scrapeo.get_text(
+                      'meta', search_attr=args.metatag_attr))
+            # --attr and --val
             else:
                 print(scrapeo.get_text(
                       'meta', **{args.metatag_attr: args.metatag_val}))
