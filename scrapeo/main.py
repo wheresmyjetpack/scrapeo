@@ -66,11 +66,10 @@ def main():
                 print('The -a and -v options must both be provided')
             else:
                 print(scrapeo.get_text(
-                    'meta', **{args.metatag_attr: args.metatag_val}))
+                      'meta', **{args.metatag_attr: args.metatag_val}))
 
         if args.meta_description:
-            print(scrapeo.get_text(
-                'meta', name='description'))
+            print(scrapeo.get_text('meta', name='description'))
 
         if args.title_tag:
             print(scrapeo.get_text('title'))
