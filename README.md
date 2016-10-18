@@ -15,9 +15,14 @@ A command-line SEO web scraping / analysis tool
 
 ### Features ###
 * Installation via pip or make
+* Scrape meta description, page title, content from robots meta tag, and page headings
+* Attempt to find meta tags by attr=val and scrape text from the value of one of its attributes
 
 
-### More commands ###
+### Make commands ###
+All of these are a work-in-progress, and many may end up being removed
+
+
 * **make test** - run all tests
 * **make deb** - build Debian package (Incomplete)
 * **make source** - build source tarball
@@ -51,3 +56,14 @@ A command-line SEO web scraping / analysis tool
         |-- requirements-dev.txt
         |-- requirements.txt
         `-- setup.py
+
+
+### Changelog ###
+#### 0.1.1.dev1 ####
+* Unnecessary relative imports removed from CLI script
+* Flag for scraping the content attribute of a robots meta tag
+* Option for scraping the text from the first heading by type (h1,h2,h3,etc.)
+
+
+#### 0.1.0 ####
+* Initial development release
