@@ -29,6 +29,7 @@ parser_meta.add_argument('-a', '--attr',
                          dest='metatag_attr', const='name')
 parser_meta.add_argument('-v', '--val', nargs='?', metavar='value',
                          dest='metatag_val')
+# TODO add option to specify seo attribute to scrape value from
 # flags
 parser_meta.add_argument('-t', '--title', dest='title_tag',
                          action='store_true')
