@@ -9,19 +9,22 @@ class Scrapeo(object):
         self.dom_parser = dom_parser or self.__default_dom_parser()(html)
         self.analyzer = analyzer or SEOAnalyzer()
 
-    """Public
-    """
-    def get_text(self, keyword, **kwargs):
-        """ Retrieve some portion of text from a node
-        Could be node text or the value of an element's attribute 
-        params--
-        keyword: dom search term, could be element name or attribute """
+    """Public"""
+    def get_text(self, search_term, **kwargs):
+        """ Search the dom and retrieve some portion of text from one or more of the results
+
+        keyword -- abritrary term to search the dom for, typically an element name
+        keyword arguments:
+        seo_attr -- specify the element's attribute to scrape the value from
+
+        Keyword arguments may be any number of HTML element attribute:value pairs used to
+        locate a particular tag
+        """
         element = self.__dom_search(keyword, **kwargs)
         seo_attr = kwargs.get('seo_attr', None)
         return self.__relevant_text(element, seo_attr)
 
-    """Private
-    """
+    """Private"""
     def __dom_search(self, keyword, **kwargs):
         return self.dom_parser.find(keyword, **kwargs)
 
@@ -38,8 +41,7 @@ class DomNavigator(object):
         self.parser = parser or self.__default_parser()
         self.dom = self.__parse(html, parser_type)
 
-    """Public
-    """
+    """Public"""
     def find(self, keyword, list_all=False, **kwargs):
         search_attr = kwargs.pop('seo_attr', None)
         ele_attrs = kwargs
@@ -48,8 +50,7 @@ class DomNavigator(object):
         else:
             return self.__search_for(keyword, search_attr=search_attr, **ele_attrs)
 
-    """Private
-    """
+    """Private"""
     def __search_for(self, keyword, search_attr=None, **kwargs):
         if search_attr and not any(kwargs):
             # assume the tag contains only one attribute, which is the one we're interested in
@@ -68,13 +69,11 @@ class SEOAnalyzer(object):
     def __init__(self):
         pass
 
-    """Public
-    """
+    """Public"""
     def relevant_text(self, element, seo_attr=None):
         return self.__determine_seo_text(element, seo_attr)
 
-    """Private
-    """
+    """Private"""
     def __determine_seo_text(self, element, seo_attr):
         if self.__is_empty_element(element):
             return self.__closed_tag_contents(element, seo_attr)

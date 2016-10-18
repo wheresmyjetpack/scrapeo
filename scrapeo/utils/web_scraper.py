@@ -7,14 +7,12 @@ class WebScraper(object):
     def __init__(self, http_client=None):
         self.http_client = http_client or self.__default_http_client()
 
-    """Public
-    """
+    """Public"""
     def scrape(self, url):
         req = self.__http_get(url)
         return self.__document_from(req)
 
-    """Private
-    """
+    """Private"""
     def __http_get(self, url):
         return self.http_client.get(url)
 
