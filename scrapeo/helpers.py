@@ -4,7 +4,7 @@
 def fn(value):
     """
     Return 'value'.
-    
+
     >>> fn(1)
     1
     >>> fn(2)
@@ -18,4 +18,4 @@ def fn(value):
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
-    
+
