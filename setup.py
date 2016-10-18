@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
         name='scrapeo',
-        version='0.1.0.dev2',
+        version='0.1.0.a1',
         author='Paul Morris',
         author_email='wheresmyjetpack03@gmail.com',
         #url='http://www.scrapeo.org',
