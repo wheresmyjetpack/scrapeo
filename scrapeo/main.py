@@ -3,7 +3,7 @@ import sys
 import requests.exceptions
 
 # Relative imports
-from .core import Scrapeo, DomNavigator, SEOAnalyzer
+from .core import Scrapeo
 from .utils import web_scraper
 
 argparser = argparse.ArgumentParser(
