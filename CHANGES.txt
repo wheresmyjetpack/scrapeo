@@ -1,5 +1,7 @@
 Release 0.1.1.a1:
   - Change make deploy virtualenv directory location
+  - Added '-s' CLI option for specifiying what element attribute to scrape a value from
+  - Improved and better named tests
 
 Release 0.1.1.dev1:
   - Unnecessary relative imports removed from CLI script
