@@ -2,6 +2,9 @@
 
 from bs4 import BeautifulSoup
 
+# Relative imports
+from .helpers import node_text
+
 class Scrapeo(object):
 
     def __init__(self, html, dom_parser=None, analyzer=None):
@@ -19,7 +22,7 @@ class Scrapeo(object):
             search_val -- value that one of the element's attributes should hold
             seo_attr -- specify which attribute to scrape a value from
             Additional keyword arguments may be any arbirary number of HTML element
-            attribute=value pairs used to locate a particular tag.
+            attribute-value pairs used to locate a particular tag.
         """
 
         # search the dom for the provided keyword
@@ -82,10 +85,7 @@ class TextAnalyzer(object):
     def __determine_text(self, element, seo_attr):
         if self.__is_empty_element(element):
             return self.__value_from_attr(element, seo_attr)
-        return self.__node_text(element)
-
-    def __node_text(self, element):
-        return element.text
+        return node_text(element)
 
     def __value_from_attr(self, element, seo_attr):
         attr = 'content'
@@ -103,7 +103,7 @@ class TextAnalyzer(object):
         return element.is_empty_element
 
 class ElementAttributeError(Exception):
-    """ Raised when an HTML does not have a specified attribute.
+    """ Raised when an element does not have a specified attribute.
 
     Attributes:
         element -- the queried element

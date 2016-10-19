@@ -1,19 +1,12 @@
-#!/usr/bin/env python
-# coding=utf-8
+""" scrapeo/helpers.py """
 
-def fn(value):
+def node_text(element):
+    """ Return the text attribute of element
+    Arguments:
+        element -- an object that responds to the attribute text
+
     """
-    Return 'value'.
-
-    >>> fn(1)
-    1
-    >>> fn(2)
-    2
-    >>> fn(3)
-    3
-    """
-    return value
-
+    return element.text
 
 if __name__ == "__main__":
     import doctest
