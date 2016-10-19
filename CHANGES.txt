@@ -1,3 +1,6 @@
+Release 0.1.1.b1:
+  - Installation instructions
+
 Release 0.1.1.a1:
   - Change make deploy virtualenv directory location
   - Added '-s' CLI option for specifiying what element attribute to scrape a value from
