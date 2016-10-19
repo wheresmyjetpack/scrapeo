@@ -30,7 +30,7 @@ parser_meta = subparsers.add_parser('meta', help='meta help')
 parser_meta.add_argument('-a', '--attr',
                          nargs='?', metavar='attribute',
                          dest='metatag_attr', const='name')
-parser_meta.add_argument('-v', '--val', nargs=1, metavar='value',
+parser_meta.add_argument('-v', '--val', metavar='value',
                          dest='metatag_val')
 parser_meta.add_argument('-s', '--seoattribute', nargs='?',
                          metavar='relevant_attribute', dest='seo_attr')
@@ -50,7 +50,7 @@ argparser.add_argument('url')
 def main():
     args = argparser.parse_args()
     # DEBUG
-    print(args)
+    #print(args)
 
     url = args.url
     # if the URL is missing the HTTP schema, add it
