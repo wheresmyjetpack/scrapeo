@@ -3,8 +3,10 @@ Scrapeo
 
 A command-line SEO web scraping / analysis tool
 
-### Usage ###
+### Installation ###
 1. Run `git clone git://github.com/wheresmyjetpack/scrapeo.git`
+2. `cd` into the scrapeo directory and run `make deploy` to install required packages into a virtualenv
+3. *Optional* (With super user privileges) `ln -s $HOME/.virtualenvs/venv/bin/scrapeo /usr/local/bin/scrapeo` (Or somehwere in your path)
 
 
 ### Concept ###
