@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# TODO document public API / module
 
 from bs4 import BeautifulSoup
 
@@ -10,15 +10,16 @@ class Scrapeo(object):
 
     """Public"""
     def get_text(self, search_term, search_val=None, seo_attr=None, **kwargs):
-        """ Search the dom and retrieve some portion of text from one or more of the results
+        """ Search the dom and retrieve some portion of text from one or
+        more of the results.
 
-        search_term -- abritrary term to search the dom for, typically an element name
-        keyword arguments:
-        search_attr -- if specified, element must have this as an attribute
-        seo_attr -- specify the element's attribute to scrape the value from
-
-        Additional keyword arguments may be any number of HTML element
-        attribute=value pairs used to locate a particular tag
+        Arguments:
+            search_term -- abritrary term to search the dom for, typically an element name
+        Keyword Arguments:
+            search_val -- value that one of the element's attributes should hold
+            seo_attr -- specify which attribute to scrape a value from
+            Additional keyword arguments may be any arbirary number of HTML element
+            attribute=value pairs used to locate a particular tag.
         """
 
         # search the dom for the provided keyword
