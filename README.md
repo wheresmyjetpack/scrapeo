@@ -61,7 +61,7 @@ All of these are a work-in-progress, and many may end up being removed
 ### Changelog ###
 #### 0.1.1.a1 ####
 * Change make deploy virtualenv directory location
-* Added '-s' CLI option for specifiying what element attribute to scrape a value from
+* Added `-s` CLI option for specifiying what element attribute to scrape a value from
 * Improved and better named tests
 
 
