@@ -10,6 +10,7 @@ class WebScraper(object):
     """Public"""
     def scrape(self, url):
         req = self.__http_get(url)
+        req.raise_for_status()
         return self.__document_from(req)
 
     """Private"""
