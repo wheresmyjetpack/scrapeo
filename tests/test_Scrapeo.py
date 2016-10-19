@@ -19,11 +19,11 @@ class ScrapeoTest(unittest.TestCase):
     def test_gets_text_from_element(self):
         self.assertEqual('The title', self.scrapeo.get_text('title'))
 
-    def test_gets_content_from_meta_tag(self):
+    def test_gets_value_from_seo_attr_when_specified(self):
+        self.assertEqual('UTF-8', self.scrapeo.get_text('meta', seo_attr='charset', **{'http-equiv': 'Content-Type'}))
+
+    def test_gets_value_from_content_when_no_seo_attr_specified(self):
         self.assertEqual('The description', self.scrapeo.get_text('meta', name='description'))
 
-    def test_gets_canonical_href_from_link(self):
-        self.assertEqual('http://example.com', self.scrapeo.get_text('link', seo_attr='href', rel='canonical'))
-
-    def test_gets_meta_charset(self):
-        self.assertEqual('UTF-8', self.scrapeo.get_text('meta', seo_attr='charset'))
+    def test_gets_content_from_first_tag_with_attr_value_when_no_attr_specified(self):
+        self.assertEqual('noindex,nofollow', self.scrapeo.get_text('meta', search_val='robots'))

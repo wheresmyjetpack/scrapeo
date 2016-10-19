@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import re
 from bs4 import BeautifulSoup
 
 class Scrapeo(object):
@@ -88,12 +87,30 @@ class TextAnalyzer(object):
         return element.text
 
     def __value_from_attr(self, element, seo_attr):
+        attr = 'content'
         if seo_attr:
             # Return the text value of the relevant attribute
-            return element[seo_attr]
+            attr = seo_attr
+        val = element.get(attr)
+
+        if val is None:
+            raise ElementAttributeError(element, attr, 'Element missing attribute "%s"' % attr)
         else:
-            # Default is for the meta tag content attribute
-            return element['content']
+            return val
 
     def __is_empty_element(self, element):
         return element.is_empty_element
+
+class ElementAttributeError(Exception):
+    """ Raised when an HTML does not have a specified attribute.
+
+    Attributes:
+        element -- the queried element
+        attr -- the missing attribute of the queried element
+        message -- explanation of error
+    """
+
+    def __init__(self, element, attr, message):
+        self.element = element
+        self.attr = attr
+        self.message = message
