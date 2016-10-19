@@ -28,7 +28,7 @@ setup(
         exclude_package_data = { '': ['README.txt'] },
         keywords='python tools utils internet www',
         license='GPL',
-        classifiers=['Development Status :: 2 - Pre-Alpha',
+        classifiers=['Development Status :: 3 - Alpha',
             'Natural Language :: English',
             'Operating System :: OS Independent',
             'Intended Audience :: Developers',
