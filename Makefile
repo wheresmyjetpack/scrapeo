@@ -12,6 +12,9 @@ dist: source deb
 source:
 	$(PYTHON) setup.py sdist
 
+wheel:
+	$(PYTHON) setup.py bdist_wheel
+
 deb:
 	$(PYTHON) setup.py --command-packages=stdeb.command bdist_deb
 
