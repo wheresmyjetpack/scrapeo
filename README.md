@@ -28,37 +28,42 @@ All of these are a work-in-progress, and many may end up being removed
 * **make test** - run all tests
 * **make deb** - build Debian package (Incomplete)
 * **make source** - build source tarball
+* **make wheel** - build Python wheel
 * **make daily** - make daily snapshot
+* **make deploy** - create vitrual environment
 * **make install** - install program
 * **make init** - install all requirements
-* **make clean** - clean project, remove *.pyc and other temporary files
-* **make deploy** - create vitrual environment
+* **make clean** - clean project, remove .pyc and other temporary files
 
 
-        |-- docs
-        |   `-- doc.txt
-        |-- scrapeo
-        |   |-- data
-        |   |   `-- some_data.html
-        |   |-- utils
-        |   |   |-- __init__.py
-        |   |   |-- web_scraper.py
-        |   |-- __init__.py
-        |   |-- core.py
-        |   |-- main.py
-        |   |-- helpers.py
-        |-- tests
-        |   |-- __init__.py
-        |   |-- test_helpers.py
-        |   |-- test_Scrapeo.py
-        |-- Makefile
-        |-- CHANGES.txt
-        |-- LICENSE.txt
-        |-- README.md
-        |-- requirements-dev.txt
-        |-- requirements.txt
-        `-- setup.py
-
+```
+    |-- docs
+    |   `-- doc.txt
+    |-- scrapeo
+    |   |-- data
+    |   |   `-- some_data.html
+    |   |-- utils
+    |   |   |-- __init__.py
+    |   |   `-- web_scraper.py
+    |   |-- __init__.py
+    |   |-- core.py
+    |   |-- main.py
+    |   `-- helpers.py
+    |-- tests
+    |   |-- data
+    |   |   `-- document.html
+    |   |-- __init__.py
+    |   |-- test_helpers.py
+    |   `-- test_Scrapeo.py
+    |-- Makefile
+    |-- CHANGES.txt
+    |-- LICENSE.txt
+    |-- README.md
+    |-- README.rst
+    |-- requirements-dev.txt
+    |-- requirements.txt
+    `-- setup.py
+```
 
 ### Changelog ###
 #### 0.1.1.a1 ####
