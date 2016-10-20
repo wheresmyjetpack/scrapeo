@@ -112,7 +112,12 @@ class DomNavigator(object):
     def __search_by_value(self, keyword, value):
         for tag in self.dom.find_all(keyword):
             if value in tag.attrs.values():
-                return tag
+                found = tag
+                break
+        if not found:
+            raise ElementNotFoundError(keyword, None, value)
+        else:
+            return found
 
     def __parse(self, html, parser_type):
         return self.parser(html, parser_type)
@@ -122,20 +127,42 @@ class DomNavigator(object):
 
 
 class TextAnalyzer(object):
+    # TODO maybe rename to ElementAnalyzer? Not really a text analyzer
+    """Get text from an HTML element.
+
+    Determines what useful or relevant text an HTML element contains
+    and returns it as a string.
+    """
 
     def __init__(self):
         pass
 
     ### Public ###
     def relevant_text(self, element, seo_attr=None):
-        return self.__determine_text(element, seo_attr)
+        """Get pertinent text from an HTML element.
 
-    ### Private ###
-    def __determine_text(self, element, seo_attr):
-        if self.__is_empty_element(element):
+        Given an element's type and (optionally) a particular attribute,
+        retrieve text from the element. Text could either be the text
+        content of the node or the value of a particular attribute.
+
+        Args:
+            element (obj): object representing an HTML element which
+                should implement the attributes is_empty_element and
+                text, and support a dict-like get method for accessing
+                attributes
+
+        Keyword Args:
+            seo_attr (str): attribute of element to retrieve a value
+                from
+
+        Raises:
+            ElementAttributeError
+        """
+        if self.__is_empty_element(element) or seo_attr:
             return self.__value_from_attr(element, seo_attr)
         return node_text(element)
 
+    ### Private ###
     def __value_from_attr(self, element, seo_attr):
         attr = 'content'
         if seo_attr:
@@ -152,6 +179,7 @@ class TextAnalyzer(object):
     def __is_empty_element(self, element):
         return element.is_empty_element
 
+
 class ElementAttributeError(Exception):
     """Raised when an element does not have a specified attribute.
 
@@ -160,8 +188,17 @@ class ElementAttributeError(Exception):
         attr (str): the missing attribute of the queried element
         message (str): explanation of error
     """
-
     def __init__(self, element, attr, message):
         self.element = element
         self.attr = attr
+        self.message = message
+
+
+class ElementNotFoundError(Exception):
+    """Raised when an element can't be found using search params.
+    """
+    def __init__(self, search_term, attr, value, message):
+        self.search_term = search_term
+        self.attr = attr
+        self.value = value
         self.message = message

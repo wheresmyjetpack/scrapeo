@@ -1,5 +1,4 @@
 import argparse
-import sys
 import re
 import requests.exceptions
 
@@ -50,7 +49,7 @@ argparser.add_argument('url')
 def main():
     args = argparser.parse_args()
     # DEBUG
-    #print(args)
+    print(args)
 
     url = args.url
     # if the URL is missing the HTTP schema, add it
@@ -74,8 +73,7 @@ def main():
         # --attr, --val
         if args.metatag_val or args.metatag_attr:
             # --seoattribute
-            if args.seo_attr:
-                seo_attr = args.seo_attr
+            seo_attr = args.seo_attr
             # --val only
             if args.metatag_val and not args.metatag_attr:
                 search_val = args.metatag_val
