@@ -67,6 +67,7 @@ def main():
     # meta subparser
     if args.command == 'meta':
         # defaults
+        kwargs = {}
         seo_attr = None
         search_val = None
         attrs = {}
@@ -74,6 +75,7 @@ def main():
         if args.metatag_val or args.metatag_attr:
             # --seoattribute
             seo_attr = args.seo_attr
+            kwargs['seo_attr'] = args.seo_attr
             # --val only
             if args.metatag_val and not args.metatag_attr:
                 search_val = args.metatag_val
@@ -105,6 +107,8 @@ def main():
         # --robots
         if args.robots_meta:
             print(scrapeo.get_text('meta', name='robots'))
+
+        # print(scrapeo.get_text(element, **kwargs))
 
     # content subparser
     if args.command == 'content':

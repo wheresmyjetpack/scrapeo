@@ -104,20 +104,25 @@ class DomNavigator(object):
 
     ### Private ###
     def __search_for(self, keyword, search_val, **kwargs):
-        attrs = kwargs
         if search_val and not any(kwargs):
-            return self.__search_by_value(keyword, search_val)
-        return self.dom.find(keyword, attrs=attrs)
+            tag = self.__search_by_value(keyword, search_val)
+        else:
+            tag = self.__search(keyword, **kwargs)
+
+        if tag is None:
+            self.__raise_element_not_found_error(search_term=keyword,
+                                                 value=search_val,
+                                                 attrs=kwargs)
+            return
+        return tag
+
+    def __search(self, keyword, **kwargs):
+        return self.dom.find(keyword, attrs=kwargs)
 
     def __search_by_value(self, keyword, value):
         for tag in self.dom.find_all(keyword):
             if value in tag.attrs.values():
-                found = tag
-                break
-        if not found:
-            raise ElementNotFoundError(keyword, None, value)
-        else:
-            return found
+                return tag
 
     def __parse(self, html, parser_type):
         return self.parser(html, parser_type)
@@ -125,6 +130,13 @@ class DomNavigator(object):
     def __default_parser(self):
         return BeautifulSoup
 
+    def __raise_element_not_found_error(self, **kwargs):
+        search_term, attrs, value = pop_kwargs(kwargs, 'search_term',
+                                               'attrs', 'value',
+                                               default='')
+        msg = 'Element not found'
+        raise ElementNotFoundError(msg, search_term=search_term,
+                                   attrs=attrs, value=value)
 
 class TextAnalyzer(object):
     # TODO maybe rename to ElementAnalyzer? Not really a text analyzer
@@ -197,8 +209,8 @@ class ElementAttributeError(Exception):
 class ElementNotFoundError(Exception):
     """Raised when an element can't be found using search params.
     """
-    def __init__(self, search_term, attr, value, message):
+    def __init__(self, message, search_term='', attrs=None, value=''):
         self.search_term = search_term
-        self.attr = attr
+        self.attrs = attrs
         self.value = value
         self.message = message
