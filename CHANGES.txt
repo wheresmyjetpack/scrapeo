@@ -1,5 +1,6 @@
 Release 0.1.1.rc1:
   - Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. <meta> and <meta />
+  - Docs (generated using Sphinx and autodoc)
 
 Release 0.1.1.b2:
   - `-c` canonical link option added
