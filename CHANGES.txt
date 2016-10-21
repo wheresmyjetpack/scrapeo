@@ -1,3 +1,6 @@
+Release 0.1.1.rc1:
+  - Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. <meta> and <meta />
+
 Release 0.1.1.b2:
   - `-c` canonical link option added
   - Fixed a bug preventing all search results from showing if a single query came up with no results

@@ -72,6 +72,9 @@ A command-line SEO web scraping / analysis tool
 
 ### Changelog ###
 
+#### 0.1.1.rc1 ####
+* Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. <meta> and <meta />
+
 #### 0.1.1.b ####
 * Installation instructions
 * Google-style docstrings for public API
