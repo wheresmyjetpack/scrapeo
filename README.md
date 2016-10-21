@@ -71,7 +71,7 @@ All of these are a work-in-progress, and many may end up being removed
 * Installation instructions
 * Google-style docstrings for public API
 * Big improvements in terms of CLI flexibility as well as bug-fixes
-* Two user-defined exceptions: ElementAttributeError and ElementNotFoundError
+* Two user-defined exceptions: `ElementAttributeError` and `ElementNotFoundError`
 * Exception handling for CLI
 
 
