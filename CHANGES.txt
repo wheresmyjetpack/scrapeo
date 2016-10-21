@@ -1,3 +1,7 @@
+Release 0.1.1.b2:
+  - `-c` canonical link option added
+  - Fixed a bug preventing all search results from showing if a single query came up with no results
+
 Release 0.1.1.b1:
   - Installation instructions
   - Google-style docstrings for public API
