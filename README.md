@@ -28,7 +28,6 @@ A command-line SEO web scraping / analysis tool
 
 
 ### Make commands ###
-All of these are a work-in-progress, and many may end up being removed
 
 
 * **make test** - run all tests
