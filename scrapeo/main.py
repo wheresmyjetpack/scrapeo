@@ -1,6 +1,7 @@
 import argparse
 import re
 import requests.exceptions
+import sys
 
 # TODO add pretty text formatting
 
@@ -62,12 +63,13 @@ def main():
 
     # initialize scrapeo
     scrapeo = Scrapeo(html)
+    # initialize list used to store each set of search params
+    searches = []
 
     ### process command-line arguments ###
     # meta subparser
     if args.command == 'meta':
         # defaults
-        searches = []
         element = 'meta'
         # --attr, --val
         if args.metatag_val or args.metatag_attr:
@@ -99,10 +101,19 @@ def main():
         if args.robots_meta:
             searches.append([element, {'name': 'robots'}])
 
-        search = lambda s: print(scrapeo.get_text(s[0], **s[1]))
+    # content subparser
+    if args.command == 'content':
+        # --heading 
+        if args.heading_type:
+            element = args.heading_type
+            searches.append([element, {}])
+
+    search = lambda s: print(scrapeo.get_text(s[0], **s[1]))
+
+    for query in searches:
         try:
             # find and print the relevant text
-            [search(s) for s in searches]
+            search(s)
 
         except ElementAttributeError as e:
             # element found, but missing attribute specified by '-s'
@@ -114,10 +125,4 @@ def main():
             print('No elements found.')
             print(e.attrs)
 
-        # print(scrapeo.get_text(element, **kwargs))
-
-    # content subparser
-    if args.command == 'content':
-        # --heading 
-        if args.heading_type:
-            print(scrapeo.get_text(args.heading_type))
+    sys.exit(0)
