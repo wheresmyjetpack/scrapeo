@@ -9,6 +9,11 @@ A command-line SEO web scraping / analysis tool
 3. *Optional* (With super user privileges) `ln -s $HOME/.virtualenvs/venv/bin/scrapeo /usr/local/bin/scrapeo` (Or somehwere in your path)
 
 
+*Alternative* -- Install via `pip`
+* If installing in a virtualenv, simply run `pip3 install scrapeo`
+* If installing to your global site-package directory (not recommended), run `pip3 install --pre scrapeo` since Scrapeo is still in pre-release
+
+
 ### Concept ###
 * Scrape and analyze elements like meta data and content from web pages
 * Provide a quick and easy-to-use tool for those who prefer command-line interfaces
