@@ -32,7 +32,7 @@ All of these are a work-in-progress, and many may end up being removed
 
 
 * **make test** - run all tests
-* **make deb** - build Debian package (Incomplete)
+* **make deb** - build Debian package (*requires system packages in requirements-dev.txt*)
 * **make source** - build source tarball
 * **make wheel** - build Python wheel
 * **make daily** - make daily snapshot
