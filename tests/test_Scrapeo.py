@@ -27,3 +27,6 @@ class ScrapeoTest(unittest.TestCase):
 
     def test_gets_content_from_first_tag_with_attr_value_when_no_attr_specified(self):
         self.assertEqual('noindex,nofollow', self.scrapeo.get_text('meta', search_val='robots'))
+
+    def test_finds_tags_case_insensitively(self):
+        self.assertEqual('website', self.scrapeo.get_text('meta', ignore_case=True, property='og:type'))

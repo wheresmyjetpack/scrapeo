@@ -44,6 +44,8 @@ parser_meta.add_argument('-d', '--description',
 parser_meta.add_argument('-r', '--robots', dest='robots_meta',
                          action='store_true')
 parser_meta.add_argument('-c', '--canonical', action='store_true')
+parser_meta.add_argument('i', '--ignorecase', action='store_true',
+                         default=False)
 
 # TODO add a flag to turn off text output formatting
 # URL positional argument
@@ -76,6 +78,9 @@ def main():
         # --attr, --val
         if args.metatag_val or args.metatag_attr:
             kwargs = {}
+            # --ignorecase
+            #if args.ignorecase:
+
             # --seoattribute
             if args.seo_attr:
                 kwargs['seo_attr'] = args.seo_attr
