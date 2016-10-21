@@ -1,13 +1,5 @@
 """scrapeo/helpers.py"""
 
-def node_text(element):
-    """Return the text attribute of element
-
-    Arguments:
-        element -- an object that responds to the attribute text
-    """
-    return element.text
-
 def pop_kwargs(obj, *args, default=None):
     """Return a tuple of values specified by args from calling pop
     on obj

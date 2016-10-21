@@ -6,7 +6,7 @@
 from bs4 import BeautifulSoup
 
 # Relative imports
-from .helpers import node_text, pop_kwargs
+from .helpers import pop_kwargs
 
 class Scrapeo(object):
     """Parse HTML into an object, search and get relevant element text.
@@ -145,7 +145,6 @@ class TextAnalyzer(object):
     Determines what useful or relevant text an HTML element contains
     and returns it as a string.
     """
-
     def __init__(self):
         pass
 
@@ -167,18 +166,24 @@ class TextAnalyzer(object):
             seo_attr (str): attribute of element to retrieve a value
                 from
 
+        Returns:
+            str: node text if the element is empty / self-closing or
+                if seo_attr is not None, element attribute value as text
+                otherwise
+
         Raises:
-            ElementAttributeError
+            ElementAttributeError: If seo_attr is not an attribute of
+                element
         """
-        if self.__is_empty_element(element) or seo_attr:
+        if self.__is_empty_element(element) or seo_attr is not None:
             return self.__value_from_attr(element, seo_attr)
-        return node_text(element)
+        return self.__node_text(element)
 
     ### Private ###
     def __value_from_attr(self, element, seo_attr):
         attr = 'content'
-        if seo_attr:
-            # Return the text value of the relevant attribute
+        if seo_attr is not None:
+            # Overwrite the value of the relevant attribute
             attr = seo_attr
         val = element.get(attr)
 
@@ -187,6 +192,9 @@ class TextAnalyzer(object):
             raise ElementAttributeError(element, attr, msg)
         else:
             return val
+
+    def __node_text(self, element):
+        return element.text
 
     def __is_empty_element(self, element):
         return element.is_empty_element
@@ -207,7 +215,15 @@ class ElementAttributeError(Exception):
 
 
 class ElementNotFoundError(Exception):
-    """Raised when an element can't be found using search params.
+    """Raised when an element is not found in the DOM.
+
+    Args:
+        message (str): explanation of error
+
+    Keyword Args:
+        search_term (str): name of element searched for
+        attrs (dict): element attr-val pairs used in search
+        value (str): single value used in search
     """
     def __init__(self, message, search_term='', attrs=None, value=''):
         self.search_term = search_term
