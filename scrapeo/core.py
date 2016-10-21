@@ -93,7 +93,8 @@ class DomNavigator(object):
             search_term (str): search for elements by name
 
         Keyword Args:
-            search_val (str):
+            search_val (str): search for an element with an attribute
+                value matching search_val
             **kwargs: arbitrary element attr-val pairs
 
         Returns:
