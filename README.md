@@ -66,6 +66,15 @@ All of these are a work-in-progress, and many may end up being removed
 ```
 
 ### Changelog ###
+
+#### 0.1.1.b1 ####
+* Installation instructions
+* Google-style docstrings for public API
+* Big improvements in terms of CLI flexibility as well as bug-fixes
+* Two user-defined exceptions: ElementAttributeError and ElementNotFoundError
+* Exception handling for CLI
+
+
 #### 0.1.1.a1 ####
 * Change make deploy virtualenv directory location
 * Added `-s` CLI option for specifiying what element attribute to scrape a value from
@@ -75,7 +84,7 @@ All of these are a work-in-progress, and many may end up being removed
 #### 0.1.1.dev1 ####
 * Unnecessary relative imports removed from CLI script
 * Flag for scraping the content attribute of a robots meta tag
-* Option for scraping the text from the first heading by type (h1,h2,h3,etc.)
+* `-H` option for scraping the text from the first heading by type (h1,h2,h3,etc.)
 
 
 #### 0.1.0 ####
