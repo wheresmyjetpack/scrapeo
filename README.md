@@ -21,9 +21,10 @@ A command-line SEO web scraping / analysis tool
 
 
 ### Features ###
-* Installation via pip or make
-* Scrape meta description, page title, content from robots meta tag, and page headings
-* Attempt to find meta tags by attr=val and scrape text from the value of one of its attributes
+* Installation via `pip` or `make`
+* Scrape pages from the command-line for meta tags by attribute-value pairs or by a single attribute's value
+* Useful shortcuts like `-d` to get a page's meta description, or `-c` to retrieve a canonical URL
+* Makefile for common development tasks, like building wheel, source, and deb dists
 
 
 ### Make commands ###
