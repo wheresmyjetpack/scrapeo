@@ -3,6 +3,7 @@
 # a URL to Scrapeo instead of HTML as a string. The WebScraper will
 # do the work of making an HTTP request and retrieving the document.
 
+import html5lib
 from bs4 import BeautifulSoup
 
 # Relative imports
@@ -81,7 +82,7 @@ class DomNavigator(object):
         parser_type (str): the type of python parser used by the parser
             object
     """
-    def __init__(self, html, parser=None, parser_type='html.parser'):
+    def __init__(self, html, parser=None, parser_type='html5lib'):
         self.parser = parser or self.__default_parser()
         self.dom = self.__parse(html, parser_type)
 
