@@ -1,12 +1,11 @@
 import argparse
-import sys
 import re
 import requests.exceptions
 
 # TODO add pretty text formatting
 
 # Relative imports
-from .core import Scrapeo, ElementAttributeError
+from .core import Scrapeo, ElementAttributeError, ElementNotFoundError
 from .utils import web_scraper
 
 argparser = argparse.ArgumentParser(
@@ -50,7 +49,7 @@ argparser.add_argument('url')
 def main():
     args = argparser.parse_args()
     # DEBUG
-    #print(args)
+    print(args)
 
     url = args.url
     # if the URL is missing the HTTP schema, add it
@@ -68,45 +67,54 @@ def main():
     # meta subparser
     if args.command == 'meta':
         # defaults
-        seo_attr = None
-        search_val = None
-        attrs = {}
+        searches = []
+        element = 'meta'
         # --attr, --val
         if args.metatag_val or args.metatag_attr:
+            kwargs = {}
             # --seoattribute
             if args.seo_attr:
-                seo_attr = args.seo_attr
+                kwargs['seo_attr'] = args.seo_attr
             # --val only
             if args.metatag_val and not args.metatag_attr:
-                search_val = args.metatag_val
+                kwargs['search_val'] = args.metatag_val
             # --attr only
             elif args.metatag_attr and not args.metatag_val:
-                attrs[args.metatag_attr] = re.compile('.*')
+                kwargs[args.metatag_attr] = re.compile('.*')
             # --attr and --val
             else:
-                attrs[args.metatag_attr] = args.metatag_val
-
-            try:
-                # find and print the relevant text
-                print(scrapeo.get_text('meta', search_val=search_val,
-                                   seo_attr=seo_attr, **attrs))
-            except ElementAttributeError as e:
-                # element found, but missing attribute specified by '-s'
-                print('The element returned by your search does not'
-                      'contain the attribute "%s".' % e.attr)
-                print(e.element)
+                kwargs[args.metatag_attr] = args.metatag_val
+            searches.append([element, kwargs])
 
         # --description
         if args.meta_description:
-            print(scrapeo.get_text('meta', name='description'))
+            searches.append([element, {'name': 'description'}])
 
         # --title
         if args.title_tag:
-            print(scrapeo.get_text('title'))
+            element = 'title'
+            searches.append([element, {}])
 
         # --robots
         if args.robots_meta:
-            print(scrapeo.get_text('meta', name='robots'))
+            searches.append([element, {'name': 'robots'}])
+
+        search = lambda s: print(scrapeo.get_text(s[0], **s[1]))
+        try:
+            # find and print the relevant text
+            [search(s) for s in searches]
+
+        except ElementAttributeError as e:
+            # element found, but missing attribute specified by '-s'
+            print('The element returned by your search does not '
+                  'contain the attribute "%s".' % e.attr)
+            print(e.element)
+
+        except ElementNotFoundError as e:
+            print('No elements found.')
+            print(e.attrs)
+
+        # print(scrapeo.get_text(element, **kwargs))
 
     # content subparser
     if args.command == 'content':

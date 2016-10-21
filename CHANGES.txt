@@ -1,5 +1,9 @@
 Release 0.1.1.b1:
   - Installation instructions
+  - Google-style docstrings for public API
+  - Big improvements in terms of CLI flexibility as well as bug-fixes
+  - Two user-defined exceptions: ElementAttributeError and ElementNotFoundError
+  - Exception handling for CLI
 
 Release 0.1.1.a1:
   - Change make deploy virtualenv directory location

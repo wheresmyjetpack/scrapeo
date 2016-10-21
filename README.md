@@ -28,39 +28,53 @@ All of these are a work-in-progress, and many may end up being removed
 * **make test** - run all tests
 * **make deb** - build Debian package (Incomplete)
 * **make source** - build source tarball
+* **make wheel** - build Python wheel
 * **make daily** - make daily snapshot
+* **make deploy** - create vitrual environment
 * **make install** - install program
 * **make init** - install all requirements
-* **make clean** - clean project, remove *.pyc and other temporary files
-* **make deploy** - create vitrual environment
+* **make clean** - clean project, remove .pyc and other temporary files
 
 
-        |-- docs
-        |   `-- doc.txt
-        |-- scrapeo
-        |   |-- data
-        |   |   `-- some_data.html
-        |   |-- utils
-        |   |   |-- __init__.py
-        |   |   |-- web_scraper.py
-        |   |-- __init__.py
-        |   |-- core.py
-        |   |-- main.py
-        |   |-- helpers.py
-        |-- tests
-        |   |-- __init__.py
-        |   |-- test_helpers.py
-        |   |-- test_Scrapeo.py
-        |-- Makefile
-        |-- CHANGES.txt
-        |-- LICENSE.txt
-        |-- README.md
-        |-- requirements-dev.txt
-        |-- requirements.txt
-        `-- setup.py
-
+```
+    |-- docs
+    |   `-- doc.txt
+    |-- scrapeo
+    |   |-- data
+    |   |   `-- some_data.html
+    |   |-- utils
+    |   |   |-- __init__.py
+    |   |   `-- web_scraper.py
+    |   |-- __init__.py
+    |   |-- core.py
+    |   |-- main.py
+    |   `-- helpers.py
+    |-- tests
+    |   |-- data
+    |   |   `-- document.html
+    |   |-- __init__.py
+    |   |-- test_helpers.py
+    |   `-- test_Scrapeo.py
+    |-- Makefile
+    |-- CHANGES.txt
+    |-- LICENSE.txt
+    |-- README.md
+    |-- README.rst
+    |-- requirements-dev.txt
+    |-- requirements.txt
+    `-- setup.py
+```
 
 ### Changelog ###
+
+#### 0.1.1.b1 ####
+* Installation instructions
+* Google-style docstrings for public API
+* Big improvements in terms of CLI flexibility as well as bug-fixes
+* Two user-defined exceptions: `ElementAttributeError` and `ElementNotFoundError`
+* Exception handling for CLI
+
+
 #### 0.1.1.a1 ####
 * Change make deploy virtualenv directory location
 * Added `-s` CLI option for specifiying what element attribute to scrape a value from
@@ -70,7 +84,7 @@ All of these are a work-in-progress, and many may end up being removed
 #### 0.1.1.dev1 ####
 * Unnecessary relative imports removed from CLI script
 * Flag for scraping the content attribute of a robots meta tag
-* Option for scraping the text from the first heading by type (h1,h2,h3,etc.)
+* `-H` option for scraping the text from the first heading by type (h1,h2,h3,etc.)
 
 
 #### 0.1.0 ####

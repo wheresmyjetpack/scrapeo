@@ -1,12 +1,10 @@
-""" scrapeo/helpers.py """
+"""scrapeo/helpers.py"""
 
-def node_text(element):
-    """ Return the text attribute of element
-    Arguments:
-        element -- an object that responds to the attribute text
-
+def pop_kwargs(obj, *args, default=None):
+    """Return a tuple of values specified by args from calling pop
+    on obj
     """
-    return element.text
+    return (obj.pop(arg, default) for arg in args)
 
 if __name__ == "__main__":
     import doctest
