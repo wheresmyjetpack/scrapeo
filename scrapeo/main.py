@@ -1,7 +1,8 @@
 import argparse
 import re
-import requests.exceptions
 import sys
+
+import requests.exceptions
 
 # TODO add pretty text formatting
 
@@ -42,6 +43,7 @@ parser_meta.add_argument('-d', '--description',
                          action='store_true')
 parser_meta.add_argument('-r', '--robots', dest='robots_meta',
                          action='store_true')
+parser_meta.add_argument('-c', '--canonical', action='store_true')
 
 # TODO add a flag to turn off text output formatting
 # URL positional argument
@@ -50,7 +52,7 @@ argparser.add_argument('url')
 def main():
     args = argparser.parse_args()
     # DEBUG
-    print(args)
+    #print(args)
 
     url = args.url
     # if the URL is missing the HTTP schema, add it
@@ -69,7 +71,7 @@ def main():
     ### process command-line arguments ###
     # meta subparser
     if args.command == 'meta':
-        # defaults
+        # default element is a meta tag
         element = 'meta'
         # --attr, --val
         if args.metatag_val or args.metatag_attr:
@@ -101,6 +103,12 @@ def main():
         if args.robots_meta:
             searches.append([element, {'name': 'robots'}])
 
+        # --canonical
+        if args.canonical:
+            element = 'link'
+            searches.append([element, {'rel': 'canonical',
+                                       'seo_attr': 'href'}])
+
     # content subparser
     if args.command == 'content':
         # --heading 
@@ -113,7 +121,7 @@ def main():
     for query in searches:
         try:
             # find and print the relevant text
-            search(s)
+            search(query)
 
         except ElementAttributeError as e:
             # element found, but missing attribute specified by '-s'
