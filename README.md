@@ -73,7 +73,7 @@ A command-line SEO web scraping / analysis tool
 ### Changelog ###
 
 #### 0.1.1.rc ####
-* Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. <meta> and <meta />
+* Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. `<meta>` and `<meta />`
 * Docs (generated using Sphinx and autodoc)
 
 
