@@ -1,0 +1,209 @@
+
+Welcome to Scrapeo's documentation!
+***********************************
+
+Contents:
+
+
+Indices and tables
+******************
+
+* Index
+
+* Module Index
+
+* Search Page
+
+class scrapeo.core.DomNavigator(html, parser=None, parser_type='html5lib')
+
+   Bases: "object"
+
+   Navigate HTML by searching for names, attributes, and values.
+
+   Parses HTML in text format into an object suitable for searching.
+   Provides a method to search the parsed HTML for an element name, an
+   attribute-value pair, or simply by a value held by an arbirary
+   attribute.
+
+   Parameters:
+      **html** (*str*) -- any portion of HTML text
+
+   Keyword Arguments:
+      * **parser** (*obj*) -- the object used to do the parsing
+
+      * **parser_type** (*str*) -- the type of python parser used by
+        the parser object
+
+   find(search_term, search_val=None, **kwargs)
+
+      Find and return an HTML element using provided search terms.
+
+      Parameters:
+         **search_term** (*str*) -- search for elements by name
+
+      Keyword Arguments:
+         * **search_val** (*str*) -- search for an element with an
+           attribute value matching search_val
+
+         * ****kwargs** -- arbitrary element attr-val pairs
+
+      Returns:
+         HTML element as a python object
+
+      Return type:
+         obj
+
+      Raises:
+         "ElementNotFoundError" -- When no element can be found using
+         the search terms
+
+class scrapeo.core.ElementAnalyzer
+
+   Bases: "object"
+
+   Get text from an HTML element.
+
+   Determines what useful or relevant text an HTML element contains
+   and returns it as a string.
+
+   relevant_text(element, seo_attr=None)
+
+      Get pertinent text from an HTML element.
+
+      Given an element's type and (optionally) a particular attribute,
+      retrieve text from the element. Text could either be the text
+      content of the node or the value of a particular attribute.
+
+      Parameters:
+         **element** (*obj*) -- object representing an HTML element
+         which should implement the attributes is_empty_element and
+         text, and support a dict-like get method for accessing
+         attributes
+
+      Keyword Arguments:
+         **seo_attr** (*str*) -- attribute of element to retrieve a
+         value from
+
+      Returns:
+         node text if the element is empty / self-closing or
+            if seo_attr is not None, element attribute value as text
+            otherwise
+
+      Return type:
+         str
+
+      Raises:
+         "ElementAttributeError" -- If seo_attr is not an attribute of
+         element
+
+class scrapeo.core.Scrapeo(html, dom_parser=None, analyzer=None)
+
+   Bases: "object"
+
+   Parse HTML into an object, search and get relevant element text.
+
+   Facilitates searching and scraping functionality for appropriately
+   parsed HTML.
+
+   Parameters:
+      **html** (*str*) -- string, HTML in text format
+
+   Keyword Arguments:
+      * **dom_parser** (*obj*) -- an object that responds to the
+        find message
+
+      * **analyzer** (*obj*) -- an object that responds to the
+        relevant_text
+
+      * **message**
+
+   get_text(search_term, **kwargs)
+
+      Search the dom tags and retrieve text from the results.
+
+      Currently this encapsulates functionality to both search and
+      scrape from parsed HTML, but the two bits of functionality
+      should probably be separated into two public methods.
+
+      Parameters:
+         **search_term** (*str*) -- abritrary term to search the dom
+         for, typically an element name
+
+      Keyword Arguments:
+         * **search_val** (*str*) -- search for a tag containing
+           this value
+
+         * **seo_attr** (*str*) -- specify which attribute to scrape
+           a value from
+
+         * ****kwargs** -- arbitrary number of attr-val pairs to
+           search by
+
+      Returns:
+         The text from an element, which is either the node
+            text or an attribute's value.
+
+      Return type:
+         str
+
+Exceptions defined by the Scrapeo module
+
+exception scrapeo.exceptions.ElementAttributeError(element, attr, message)
+
+   Bases: "scrapeo.exceptions.Error"
+
+   Raised when an element does not have a specified attribute.
+
+   Parameters:
+      * **element** (*obj*) -- the queried element
+
+      * **attr** (*str*) -- the missing attribute of the queried
+        element
+
+      * **message** (*str*) -- explanation of error
+
+   args
+
+   with_traceback()
+
+      Exception.with_traceback(tb) -- set self.__traceback__ to tb and
+      return self.
+
+exception scrapeo.exceptions.ElementNotFoundError(message, search_term='', attrs=None, value='')
+
+   Bases: "scrapeo.exceptions.Error"
+
+   Raised when an element is not found in the DOM.
+
+   Parameters:
+      **message** (*str*) -- explanation of error
+
+   Keyword Arguments:
+      * **search_term** (*str*) -- name of element searched for
+
+      * **attrs** (*dict*) -- element attr-val pairs used in search
+
+      * **value** (*str*) -- single value used in search
+
+   args
+
+   with_traceback()
+
+      Exception.with_traceback(tb) -- set self.__traceback__ to tb and
+      return self.
+
+exception scrapeo.exceptions.Error
+
+   Bases: "Exception"
+
+   Base exception class to inherit from.
+
+   Scrapeo's base exception class from which all other exceptions
+   defined in its module must inherit from.
+
+   args
+
+   with_traceback()
+
+      Exception.with_traceback(tb) -- set self.__traceback__ to tb and
+      return self.

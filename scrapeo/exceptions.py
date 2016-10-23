@@ -3,8 +3,8 @@
 class Error(Exception):
     """Base exception class to inherit from.
 
-    Scrapeo's base class from which all exceptions defined in its
-    module must inherit from.
+    Scrapeo's base exception class from which all other exceptions
+    defined in its module must inherit from.
     """
 
     def __init__(self):
