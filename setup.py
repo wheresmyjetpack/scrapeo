@@ -6,10 +6,10 @@ from setuptools import setup, find_packages
 
 setup(
         name='scrapeo',
-        version='0.1.1.rc1',
+        version='0.1.1rc2',
         author='Paul Morris',
         author_email='wheresmyjetpack03@gmail.com',
-        #url='http://www.scrapeo.org',
+        url='http://www.scrapeo.org',
         #download_url='http://www.scrapeo.org/files/',
         description='A command-line SEO web scraping / analysis tool',
         long_description='Provides a command-line client for scraping and analyzing relevant SEO data from webpages.',
