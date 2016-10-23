@@ -40,5 +40,6 @@ setup(
             'Topic :: Internet :: WWW/HTTP',
             ],
 
-        install_requires = ['setuptools', 'beautifulsoup4', 'requests'],
+        install_requires = ['setuptools', 'beautifulsoup4', 'requests',
+                            'html5lib'],
         )
