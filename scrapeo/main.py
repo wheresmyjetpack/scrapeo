@@ -1,14 +1,17 @@
+# conditional python 2 import
+from __future__ import print_function
+
 import argparse
 import re
 import sys
 
 import requests.exceptions
 
-# TODO add pretty text formatting
-
 # Relative imports
 from .core import Scrapeo, ElementAttributeError, ElementNotFoundError
 from .utils import web_scraper
+
+# TODO add pretty text formatting
 
 argparser = argparse.ArgumentParser(
     prog='scrapeo',
@@ -94,14 +97,14 @@ def main():
         if args.meta_description:
             searches.append([element, {'name': 'description'}])
 
+        # --robots
+        if args.robots_meta:
+            searches.append([element, {'name': 'robots'}])
+
         # --title
         if args.title_tag:
             element = 'title'
             searches.append([element, {}])
-
-        # --robots
-        if args.robots_meta:
-            searches.append([element, {'name': 'robots'}])
 
         # --canonical
         if args.canonical:
@@ -131,6 +134,6 @@ def main():
 
         except ElementNotFoundError as e:
             print('No elements found.')
-            print(e.attrs)
+            print(vars(e))
 
     sys.exit(0)

@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
         name='scrapeo',
-        version='0.1.1.b2',
+        version='0.1.1.rc1',
         author='Paul Morris',
         author_email='wheresmyjetpack03@gmail.com',
         #url='http://www.scrapeo.org',
@@ -33,6 +33,8 @@ setup(
             'Operating System :: MacOS :: MacOS X',
             'Operating System :: POSIX :: Linux',
             'Intended Audience :: Developers',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 2',
             'Programming Language :: Python :: 3',
             'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
             'License :: OSI Approved :: GNU Affero General Public License v3',
@@ -40,5 +42,6 @@ setup(
             'Topic :: Internet :: WWW/HTTP',
             ],
 
-        install_requires = ['setuptools', 'beautifulsoup4', 'requests'],
+        install_requires = ['setuptools', 'beautifulsoup4', 'requests',
+                            'html5lib'],
         )

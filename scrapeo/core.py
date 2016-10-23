@@ -1,11 +1,20 @@
-# TODO document public API / module
+"""Core Classes for the Scrapeo Package
+=====================================
+
+This module contains classes used to parse and handle HTML as a Python
+object, search by combinations of element attribute and value pairs,
+and scrape node and attribute value text from nodes.
+"""
 # TODO DomNavigator should become WebScraper, and we're going to pass
 # a URL to Scrapeo instead of HTML as a string. The WebScraper will
 # do the work of making an HTTP request and retrieving the document.
 
+import re
+
 from bs4 import BeautifulSoup
 
 # Relative imports
+from .exceptions import ElementNotFoundError, ElementAttributeError
 from .helpers import pop_kwargs
 
 class Scrapeo(object):
@@ -24,7 +33,7 @@ class Scrapeo(object):
     """
     def __init__(self, html, dom_parser=None, analyzer=None):
         self.dom_parser = dom_parser or self.__default_dom_parser()(html)
-        self.analyzer = analyzer or TextAnalyzer()
+        self.analyzer = analyzer or ElementAnalyzer()
 
     ### Public ###
     def get_text(self, search_term, **kwargs):
@@ -81,7 +90,7 @@ class DomNavigator(object):
         parser_type (str): the type of python parser used by the parser
             object
     """
-    def __init__(self, html, parser=None, parser_type='html.parser'):
+    def __init__(self, html, parser=None, parser_type='html5lib'):
         self.parser = parser or self.__default_parser()
         self.dom = self.__parse(html, parser_type)
 
@@ -93,11 +102,16 @@ class DomNavigator(object):
             search_term (str): search for elements by name
 
         Keyword Args:
-            search_val (str):
+            search_val (str): search for an element with an attribute
+                value matching search_val
             **kwargs: arbitrary element attr-val pairs
 
         Returns:
-            obj: Python representation of an HTML element
+            obj: HTML element as a python object
+
+        Raises:
+            ElementNotFoundError: When no element can be found using
+                the search terms
         """
         ele_attrs = kwargs
         return self.__search_for(search_term, search_val, **ele_attrs)
@@ -138,7 +152,7 @@ class DomNavigator(object):
         raise ElementNotFoundError(msg, search_term=search_term,
                                    attrs=attrs, value=value)
 
-class TextAnalyzer(object):
+class ElementAnalyzer(object):
     # TODO maybe rename to ElementAnalyzer? Not really a text analyzer
     """Get text from an HTML element.
 
@@ -198,35 +212,3 @@ class TextAnalyzer(object):
 
     def __is_empty_element(self, element):
         return element.is_empty_element
-
-
-class ElementAttributeError(Exception):
-    """Raised when an element does not have a specified attribute.
-
-    Args:
-        element (obj): the queried element
-        attr (str): the missing attribute of the queried element
-        message (str): explanation of error
-    """
-    def __init__(self, element, attr, message):
-        self.element = element
-        self.attr = attr
-        self.message = message
-
-
-class ElementNotFoundError(Exception):
-    """Raised when an element is not found in the DOM.
-
-    Args:
-        message (str): explanation of error
-
-    Keyword Args:
-        search_term (str): name of element searched for
-        attrs (dict): element attr-val pairs used in search
-        value (str): single value used in search
-    """
-    def __init__(self, message, search_term='', attrs=None, value=''):
-        self.search_term = search_term
-        self.attrs = attrs
-        self.value = value
-        self.message = message

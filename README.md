@@ -10,8 +10,8 @@ A command-line SEO web scraping / analysis tool
 
 
 *Alternative* -- Install via `pip`
-* If installing in a virtualenv, simply run `pip3 install scrapeo`
-* If installing to your global site-package directory (not recommended), run `pip3 install --pre scrapeo` since Scrapeo is still in pre-release
+* If installing in a virtualenv, simply run `pip install scrapeo`
+* If installing to your global site-package directory (not recommended), run `pip install --pre scrapeo` since Scrapeo is still in pre-release
 
 
 ### Concept ###
@@ -24,7 +24,7 @@ A command-line SEO web scraping / analysis tool
 * Installation via `pip` or `make`
 * Scrape pages from the command-line for meta tags by attribute-value pairs or by a single attribute's value
 * Useful shortcuts like `-d` to get a page's meta description, or `-c` to retrieve a canonical URL
-* Makefile for common development tasks, like building wheel, source, and deb dists
+* Makefile for common development tasks, like building wheel, source, and deb packages
 
 
 ### Make commands ###
@@ -71,6 +71,13 @@ A command-line SEO web scraping / analysis tool
 ```
 
 ### Changelog ###
+
+#### 0.1.1.rc ####
+* Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. `<meta>` and `<meta />`
+* Docs (generated using Sphinx and autodoc)
+* Fixed a bug distorting search results when `-r` and `-t` are both provided as options
+* Python 2 compatability
+
 
 #### 0.1.1.b ####
 * Installation instructions
