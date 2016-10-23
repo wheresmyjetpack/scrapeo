@@ -54,7 +54,12 @@
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 <li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
-<span class="target" id="module-scrapeo.core"></span><dl class="class">
+<span class="target" id="module-scrapeo.core"></span><div class="section" id="core-classes-for-the-scrapeo-package">
+<h2>Core classes for the Scrapeo package.<a class="headerlink" href="#core-classes-for-the-scrapeo-package" title="Permalink to this headline">¶</a></h2>
+<p>This module contains classes used to parse and handle HTML as a Python
+object, search by combinations of element attribute and value pairs,
+and scrape node and attribute value text from nodes.</p>
+<dl class="class">
 <dt id="scrapeo.core.DomNavigator">
 <em class="property">class </em><code class="descclassname">scrapeo.core.</code><code class="descname">DomNavigator</code><span class="sig-paren">(</span><em>html</em>, <em>parser=None</em>, <em>parser_type='html5lib'</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapeo.core.DomNavigator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -224,7 +229,11 @@ typically an element name</p>
 
 </dd></dl>
 
-<span class="target" id="module-scrapeo.exceptions"></span><p>Exceptions defined by the Scrapeo module</p>
+</div>
+<span class="target" id="module-scrapeo.exceptions"></span><div class="section" id="exceptions-defined-by-the-scrapeo-module">
+<h2>Exceptions defined by the Scrapeo module.<a class="headerlink" href="#exceptions-defined-by-the-scrapeo-module" title="Permalink to this headline">¶</a></h2>
+<p>This module is a collection of exceptions raised by instances of the
+classes in the scrapeo.core module.</p>
 <dl class="exception">
 <dt id="scrapeo.exceptions.ElementAttributeError">
 <em class="property">exception </em><code class="descclassname">scrapeo.exceptions.</code><code class="descname">ElementAttributeError</code><span class="sig-paren">(</span><em>element</em>, <em>attr</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapeo.exceptions.ElementAttributeError" title="Permalink to this definition">¶</a></dt>
@@ -315,6 +324,7 @@ set self.__traceback__ to tb and return self.</p>
 </dd></dl>
 
 </div>
+</div>
 
 
           </div>
@@ -325,7 +335,11 @@ set self.__traceback__ to tb and return self.</p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Welcome to Scrapeo&#8217;s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
+<li><a class="reference internal" href="#core-classes-for-the-scrapeo-package">Core classes for the Scrapeo package.</a></li>
+<li><a class="reference internal" href="#exceptions-defined-by-the-scrapeo-module">Exceptions defined by the Scrapeo module.</a></li>
+</ul>
+</li>
 </ul>
 <div class="relations">
 <h3>Related Topics</h3>
