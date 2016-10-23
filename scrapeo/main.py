@@ -1,14 +1,17 @@
+# conditional python 2 import
+from __future__ import print_function
+
 import argparse
 import re
 import sys
 
 import requests.exceptions
 
-# TODO add pretty text formatting
-
 # Relative imports
 from .core import Scrapeo, ElementAttributeError, ElementNotFoundError
 from .utils import web_scraper
+
+# TODO add pretty text formatting
 
 argparser = argparse.ArgumentParser(
     prog='scrapeo',
