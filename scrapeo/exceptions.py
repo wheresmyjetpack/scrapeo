@@ -1,4 +1,9 @@
-"""Exceptions defined by the Scrapeo module"""
+"""Exceptions defined by the Scrapeo module.
+****************************************
+
+This module is a collection of exceptions raised by instances of the
+classes in the scrapeo.core module.
+"""
 
 class Error(Exception):
     """Base exception class to inherit from.

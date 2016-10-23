@@ -1,4 +1,10 @@
-# TODO document public API / module
+"""Core classes for the Scrapeo package.
+*************************************
+
+This module contains classes used to parse and handle HTML as a Python
+object, search by combinations of element attribute and value pairs,
+and scrape node and attribute value text from nodes.
+"""
 # TODO DomNavigator should become WebScraper, and we're going to pass
 # a URL to Scrapeo instead of HTML as a string. The WebScraper will
 # do the work of making an HTTP request and retrieving the document.
