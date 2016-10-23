@@ -15,8 +15,8 @@ Indices and tables
 * Search Page
 
 
-Core classes for the Scrapeo package.
-=====================================
+Core Classes for the Scrapeo Package
+====================================
 
 This module contains classes used to parse and handle HTML as a Python
 object, search by combinations of element attribute and value pairs,
@@ -155,8 +155,8 @@ class scrapeo.core.Scrapeo(html, dom_parser=None, analyzer=None)
          str
 
 
-Exceptions defined by the Scrapeo module.
-=========================================
+Exceptions Defined by the Scrapeo Module
+========================================
 
 This module is a collection of exceptions raised by instances of the
 classes in the scrapeo.core module.

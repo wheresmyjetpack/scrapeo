@@ -1,5 +1,5 @@
-"""Core classes for the Scrapeo package.
-*************************************
+"""Core Classes for the Scrapeo Package
+=====================================
 
 This module contains classes used to parse and handle HTML as a Python
 object, search by combinations of element attribute and value pairs,

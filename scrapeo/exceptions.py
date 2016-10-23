@@ -1,5 +1,5 @@
-"""Exceptions defined by the Scrapeo module.
-****************************************
+"""Exceptions Defined by the Scrapeo Module
+========================================
 
 This module is a collection of exceptions raised by instances of the
 classes in the scrapeo.core module.
