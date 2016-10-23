@@ -50,11 +50,10 @@ class Scrapeo(object):
             str: The text from an element, which is either the node
                 text or an attribute's value.
         """
-        #search_val, seo_attr = pop_kwargs(kwargs, 'search_val',
-                                          #'seo_attr')
-        seo_attr = kwargs.pop('seo_attr', None)
+        search_val, seo_attr = pop_kwargs(kwargs, 'search_val',
+                                          'seo_attr')
         # search the dom for the provided keyword
-        element = self.__dom_search(search_term,
+        element = self.__dom_search(search_term, search_val=search_val,
                                     **kwargs)
         return self.__relevant_text(element, seo_attr=seo_attr)
 
@@ -90,8 +89,7 @@ class DomNavigator(object):
         self.dom = self.__parse(html, parser_type)
 
     ### Public ###
-    def find(self, search_term, search_val=None, ignore_case=False,
-             **kwargs):
+    def find(self, search_term, search_val=None, **kwargs):
         """Find and return an HTML element using provided search terms.
 
         Args:
@@ -100,30 +98,17 @@ class DomNavigator(object):
         Keyword Args:
             search_val (str): search for an element with an attribute
                 value matching search_val
-            ignore_case (bool): ignore case when searching for elements
             **kwargs: arbitrary element attr-val pairs
 
         Returns:
             obj: Python representation of an HTML element
         """
         ele_attrs = kwargs
-        return self.__build_query(search_term, search_val, ignore_case,
-                                 **ele_attrs)
+        return self.__search_for(search_term, search_val, **ele_attrs)
 
     ### Private ###
-    def __build_query(self, keyword, search_val, ignore_case, **kwargs):
-        if ignore_case:
-            try:
-                search_val = re.compile(search_val, re.IGNORECASE)
-            except TypeError:
-                # search_val is None
-                pass
-            # update all specified attribute values from string to case
-            # insensitve regex
-            kwargs.update((k, re.compile(v, re.IGNORECASE))
-                          for k, v in kwargs.items())
-
-        if search_val is not None and not any(kwargs):
+    def __search_for(self, keyword, search_val, **kwargs):
+        if search_val and not any(kwargs):
             tag = self.__search_by_value(keyword, search_val)
         else:
             tag = self.__search(keyword, **kwargs)
