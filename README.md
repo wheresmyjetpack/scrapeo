@@ -85,7 +85,7 @@ A command-line SEO web scraping / analysis tool
 * Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. `<meta>` and `<meta />`
 * Docs (generated using Sphinx and autodoc)
 * Fixed a bug distorting search results when `-r` and `-t` are both provided as options
-* Python 2 compatability
+* Python 2 compatibility
 
 
 #### 0.1.1.b ####
