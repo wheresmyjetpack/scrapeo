@@ -94,14 +94,14 @@ def main():
         if args.meta_description:
             searches.append([element, {'name': 'description'}])
 
+        # --robots
+        if args.robots_meta:
+            searches.append([element, {'name': 'robots'}])
+
         # --title
         if args.title_tag:
             element = 'title'
             searches.append([element, {}])
-
-        # --robots
-        if args.robots_meta:
-            searches.append([element, {'name': 'robots'}])
 
         # --canonical
         if args.canonical:
@@ -131,6 +131,6 @@ def main():
 
         except ElementNotFoundError as e:
             print('No elements found.')
-            print(e.attrs)
+            print(vars(e))
 
     sys.exit(0)
