@@ -33,6 +33,8 @@ setup(
             'Operating System :: MacOS :: MacOS X',
             'Operating System :: POSIX :: Linux',
             'Intended Audience :: Developers',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 2',
             'Programming Language :: Python :: 3',
             'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
             'License :: OSI Approved :: GNU Affero General Public License v3',

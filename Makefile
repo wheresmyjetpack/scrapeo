@@ -1,4 +1,4 @@
-PYTHON=`which python3`
+PYTHON=`which python`
 NAME=`python setup.py --name`
 VERSION=`python setup.py --version`
 SDIST=dist/$(NAME)-$(VERSION).tar.gz
