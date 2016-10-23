@@ -1,7 +1,17 @@
 """Exceptions defined by the Scrapeo module"""
 
+class Error(Exception):
+    """Base exception class to inherit from.
 
-class ElementAttributeError(Exception):
+    Scrapeo's base class from which all exceptions defined in its
+    module must inherit from.
+    """
+
+    def __init__(self):
+        pass
+
+
+class ElementAttributeError(Error):
     """Raised when an element does not have a specified attribute.
 
     Args:
@@ -15,7 +25,7 @@ class ElementAttributeError(Exception):
         self.message = message
 
 
-class ElementNotFoundError(Exception):
+class ElementNotFoundError(Error):
     """Raised when an element is not found in the DOM.
 
     Args:

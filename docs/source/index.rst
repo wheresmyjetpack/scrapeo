@@ -25,3 +25,9 @@ Indices and tables
    :undoc-members:
    :inherited-members:
    :show-inheritance:
+
+.. automodule:: scrapeo.exceptions
+   :members:
+   :undoc-members:
+   :inherited-members:
+   :show-inheritance:

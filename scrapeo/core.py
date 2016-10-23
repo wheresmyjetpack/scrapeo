@@ -27,7 +27,7 @@ class Scrapeo(object):
     """
     def __init__(self, html, dom_parser=None, analyzer=None):
         self.dom_parser = dom_parser or self.__default_dom_parser()(html)
-        self.analyzer = analyzer or TextAnalyzer()
+        self.analyzer = analyzer or ElementAnalyzer()
 
     ### Public ###
     def get_text(self, search_term, **kwargs):
@@ -101,7 +101,11 @@ class DomNavigator(object):
             **kwargs: arbitrary element attr-val pairs
 
         Returns:
-            obj: Python representation of an HTML element
+            obj: HTML element as a python object
+
+        Raises:
+            ElementNotFoundError: When no element can be found using
+                the search terms
         """
         ele_attrs = kwargs
         return self.__search_for(search_term, search_val, **ele_attrs)
@@ -142,7 +146,7 @@ class DomNavigator(object):
         raise ElementNotFoundError(msg, search_term=search_term,
                                    attrs=attrs, value=value)
 
-class TextAnalyzer(object):
+class ElementAnalyzer(object):
     # TODO maybe rename to ElementAnalyzer? Not really a text analyzer
     """Get text from an HTML element.
 
