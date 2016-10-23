@@ -2,6 +2,9 @@
 .cache/*
 scrapeo.egg-info/
 scrapeo.egg-info/*
+/scrapeo-*.tar.gz
+/deb_dist/
+/deb_dist/*
 /dist/
 /dist/*
 /build/
