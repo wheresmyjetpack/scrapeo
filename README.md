@@ -43,7 +43,15 @@ A command-line SEO web scraping / analysis tool
 
 ```
     |-- docs
-    |   `-- doc.txt
+    |   |-- build
+    |   |   |--doctrees
+    |   |   |--html
+    |   |   `--text
+    |   |-- Makefile
+    |   `-- source
+    |       |-- conf.py
+    |       |-- index.rst
+    |       `-- modules.rst
     |-- scrapeo
     |   |-- data
     |   |   `-- some_data.html
