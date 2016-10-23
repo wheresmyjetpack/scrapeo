@@ -60,6 +60,7 @@ A command-line SEO web scraping / analysis tool
     |   |   `-- web_scraper.py
     |   |-- __init__.py
     |   |-- core.py
+    |   |-- exceptions.py
     |   |-- main.py
     |   `-- helpers.py
     |-- tests
