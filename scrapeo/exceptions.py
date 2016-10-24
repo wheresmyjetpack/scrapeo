@@ -50,7 +50,16 @@ class ElementNotFoundError(Error):
         self.message = message
 
 def raise_element_not_found_error(**kwargs):
-    """Function for raising ElementNotFoundError"""
+    """Function for raising ElementNotFoundError.
+
+    Keyword Args:
+        search_term (str): name of element searched for
+        attrs (dict): element attr-val pairs used in search
+        value (str): single value used in search
+
+    Raises:
+        ElementNotFoundError
+    """
     search_term, attrs, value = pop_kwargs(kwargs, 'search_term',
                                            'attrs', 'value', default='')
     msg = 'Element not found'
@@ -58,7 +67,15 @@ def raise_element_not_found_error(**kwargs):
                                attrs=attrs, value=value)
 
 def raise_element_attribute_error(**kwargs):
-    """Function for raising ElementAttributeError"""
+    """Function for raising ElementAttributeError
+
+    Keyword Args:
+        element (obj): the queried element
+        attr (str): the missing attribute of the queried element
+
+    Raises:
+        ElementAttributeError
+    """
     element, attr = pop_kwargs(kwargs, 'element', 'attr')
     msg = 'Element missing attribute "%s"' % attr
     raise ElementAttributeError(element, attr, msg)

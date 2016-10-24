@@ -323,6 +323,51 @@ set self.__traceback__ to tb and return self.</p>
 
 </dd></dl>
 
+<dl class="function">
+<dt id="scrapeo.exceptions.raise_element_attribute_error">
+<code class="descclassname">scrapeo.exceptions.</code><code class="descname">raise_element_attribute_error</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapeo.exceptions.raise_element_attribute_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for raising ElementAttributeError</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>element</strong> (<em>obj</em>) &#8211; the queried element</li>
+<li><strong>attr</strong> (<em>str</em>) &#8211; the missing attribute of the queried element</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#scrapeo.exceptions.ElementAttributeError" title="scrapeo.exceptions.ElementAttributeError"><code class="xref py py-exc docutils literal"><span class="pre">ElementAttributeError</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scrapeo.exceptions.raise_element_not_found_error">
+<code class="descclassname">scrapeo.exceptions.</code><code class="descname">raise_element_not_found_error</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapeo.exceptions.raise_element_not_found_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for raising ElementNotFoundError.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>search_term</strong> (<em>str</em>) &#8211; name of element searched for</li>
+<li><strong>attrs</strong> (<em>dict</em>) &#8211; element attr-val pairs used in search</li>
+<li><strong>value</strong> (<em>str</em>) &#8211; single value used in search</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#scrapeo.exceptions.ElementNotFoundError" title="scrapeo.exceptions.ElementNotFoundError"><code class="xref py py-exc docutils literal"><span class="pre">ElementNotFoundError</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 </div>
 
