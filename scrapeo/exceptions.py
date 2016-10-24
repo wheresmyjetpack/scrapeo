@@ -13,7 +13,6 @@ class Error(Exception):
     Scrapeo's base exception class from which all other exceptions
     defined in its module must inherit from.
     """
-
     def __init__(self):
         pass
 

@@ -1,3 +1,4 @@
+"""Application code for the Scrapeo command-line client."""
 # conditional python 2 import
 from __future__ import print_function
 
@@ -54,6 +55,11 @@ parser_meta.add_argument('-c', '--canonical', action='store_true')
 argparser.add_argument('url')
 
 def main():
+    """Main function for scrapeo.
+
+    .. todo:: Reafctor a lot of this into a separate object that
+    decides what to do with the parsed arguments, possibly a CLI class?
+    """
     args = argparser.parse_args()
     # DEBUG
     #print(args)
