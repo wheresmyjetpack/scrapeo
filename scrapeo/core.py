@@ -28,7 +28,7 @@ class Scrapeo(object):
     Keyword Args:
         dom_parser (obj): an object that responds to the find message
         analyzer (obj): an object that responds to the relevant_text
-        message
+            message
     """
     def __init__(self, html, dom_parser=None, analyzer=None):
         self.dom_parser = dom_parser or self.__default_dom_parser()(html)

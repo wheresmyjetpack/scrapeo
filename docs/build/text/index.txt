@@ -121,9 +121,7 @@ class scrapeo.core.Scrapeo(html, dom_parser=None, analyzer=None)
         find message
 
       * **analyzer** (*obj*) -- an object that responds to the
-        relevant_text
-
-      * **message**
+        relevant_text message
 
    get_text(search_term, **kwargs)
 
