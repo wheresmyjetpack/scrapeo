@@ -5,9 +5,6 @@ This module contains classes used to parse and handle HTML as a Python
 object, search by combinations of element attribute and value pairs,
 and scrape node and attribute value text from nodes.
 """
-# TODO DomNavigator should become WebScraper, and we're going to pass
-# a URL to Scrapeo instead of HTML as a string. The WebScraper will
-# do the work of making an HTTP request and retrieving the document.
 
 import re
 
@@ -81,6 +78,10 @@ class DomNavigator(object):
     an attribute-value pair, or simply by a value held by an arbirary
     attribute.
 
+    .. todo:: DomNavigator should become WebScraper, and we're going to pass
+        a URL to Scrapeo instead of HTML as a string. The WebScraper will
+        do the work of making an HTTP request and retrieving the document.
+
     Args:
         html (str): any portion of HTML text
 
@@ -145,7 +146,6 @@ class DomNavigator(object):
 
 
 class ElementAnalyzer(object):
-    # TODO maybe rename to ElementAnalyzer? Not really a text analyzer
     """Get text from an HTML element.
 
     Determines what useful or relevant text an HTML element contains

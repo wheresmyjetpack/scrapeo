@@ -33,6 +33,11 @@ class scrapeo.core.DomNavigator(html, parser=None, parser_type='html5lib')
    attribute-value pair, or simply by a value held by an arbirary
    attribute.
 
+   Todo: DomNavigator should become WebScraper, and we're going to
+   pass a URL to Scrapeo instead of HTML as a string. The WebScraper
+   will do the work of making an HTTP request and retrieving the
+   document.
+
    Parameters:
       **html** (*str*) -- any portion of HTML text
 
