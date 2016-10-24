@@ -5,6 +5,8 @@ This module is a collection of exceptions raised by instances of the
 classes in the scrapeo.core module.
 """
 
+from .helpers import pop_kwargs
+
 class Error(Exception):
     """Base exception class to inherit from.
 
@@ -46,3 +48,17 @@ class ElementNotFoundError(Error):
         self.attrs = attrs
         self.value = value
         self.message = message
+
+def raise_element_not_found_error(**kwargs):
+    """Function for raising ElementNotFoundError"""
+    search_term, attrs, value = pop_kwargs(kwargs, 'search_term',
+                                           'attrs', 'value', default='')
+    msg = 'Element not found'
+    raise ElementNotFoundError(msg, search_term=search_term,
+                               attrs=attrs, value=value)
+
+def raise_element_attribute_error(**kwargs):
+    """Function for raising ElementAttributeError"""
+    element, attr = pop_kwargs(kwargs, 'element', 'attr')
+    msg = 'Element missing attribute "%s"' % attr
+    raise ElementAttributeError(element, attr, msg)

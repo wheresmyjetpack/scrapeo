@@ -8,7 +8,8 @@ import sys
 import requests.exceptions
 
 # Relative imports
-from .core import Scrapeo, ElementAttributeError, ElementNotFoundError
+from .core import Scrapeo
+from .exceptions import ElementNotFoundError, ElementAttributeError
 from .utils import web_scraper
 
 # TODO add pretty text formatting

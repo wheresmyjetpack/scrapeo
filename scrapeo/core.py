@@ -13,8 +13,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-# Relative imports
-from .exceptions import ElementNotFoundError, ElementAttributeError
+import scrapeo.exceptions as exceptions
 from .helpers import pop_kwargs
 
 class Scrapeo(object):
@@ -124,7 +123,7 @@ class DomNavigator(object):
             tag = self.__search(keyword, **kwargs)
 
         if tag is None:
-            self.__raise_element_not_found_error(search_term=keyword,
+            exceptions.raise_element_not_found_error(search_term=keyword,
                                                  value=search_val,
                                                  attrs=kwargs)
             return
@@ -144,13 +143,6 @@ class DomNavigator(object):
     def __default_parser(self):
         return BeautifulSoup
 
-    def __raise_element_not_found_error(self, **kwargs):
-        search_term, attrs, value = pop_kwargs(kwargs, 'search_term',
-                                               'attrs', 'value',
-                                               default='')
-        msg = 'Element not found'
-        raise ElementNotFoundError(msg, search_term=search_term,
-                                   attrs=attrs, value=value)
 
 class ElementAnalyzer(object):
     # TODO maybe rename to ElementAnalyzer? Not really a text analyzer
@@ -202,8 +194,8 @@ class ElementAnalyzer(object):
         val = element.get(attr)
 
         if val is None:
-            msg = 'Element missing attribute "%s"' % attr
-            raise ElementAttributeError(element, attr, msg)
+            exceptions.raise_element_attribute_error(element=element,
+                                                     attr=attr)
         else:
             return val
 
