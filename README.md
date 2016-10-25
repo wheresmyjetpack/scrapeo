@@ -41,6 +41,9 @@ A command-line SEO web scraping / analysis tool
 * **make clean** - clean project, remove .pyc and other temporary files
 
 
+### Project Structure ###
+
+
 ```
     |-- docs
     |   |-- build
