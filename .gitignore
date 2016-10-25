@@ -9,3 +9,5 @@ scrapeo.egg-info/*
 /dist/*
 /build/
 /build/*
+/docs/build/html/
+/docs/build/html/*
