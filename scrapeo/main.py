@@ -1,5 +1,5 @@
 """Application code for the Scrapeo command-line client."""
-# conditional python 2 import
+# Python 2 compatibility
 from __future__ import print_function
 
 import argparse
@@ -14,6 +14,7 @@ from .exceptions import ElementNotFoundError, ElementAttributeError
 from .utils import web_scraper
 
 # TODO add pretty text formatting
+# TODO add option to check what HTML spec a site makes use of
 
 argparser = argparse.ArgumentParser(
     prog='scrapeo',
