@@ -45,14 +45,14 @@ A command-line SEO web scraping / analysis tool
     |-- docs
     |   |-- build
     |   |   |--doctrees
-    |   |   |--html
     |   |   `--text
+    |   |      `-- index.txt
     |   |-- Makefile
     |   `-- source
     |       |-- conf.py
-    |       |-- index.rst
-    |       `-- modules.rst
+    |       `-- index.rst
     |-- scrapeo
+    |   |-- __init__.py
     |   |-- data
     |   |   `-- some_data.html
     |   |-- utils
@@ -69,9 +69,10 @@ A command-line SEO web scraping / analysis tool
     |   |-- __init__.py
     |   |-- test_helpers.py
     |   `-- test_Scrapeo.py
-    |-- Makefile
     |-- CHANGES.txt
     |-- LICENSE.txt
+    |-- MANIFEST.in
+    |-- Makefile
     |-- README.md
     |-- README.rst
     |-- requirements-dev.txt
@@ -82,7 +83,7 @@ A command-line SEO web scraping / analysis tool
 ### Changelog ###
 
 #### 0.1.1.rc ####
-* Move from Python's html.parser to external html5lib to help deal with different forms of empty tags, eg. `<meta>` and `<meta />`
+* Move from Python's html.parser to the external `html5lib` package to help deal with different forms of empty tags, eg. `<meta>` and `<meta />`
 * Docs (generated using Sphinx and autodoc)
 * Fixed a bug distorting search results when `-r` and `-t` are both provided as options
 * Python 2 compatibility
