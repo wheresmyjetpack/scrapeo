@@ -11,3 +11,5 @@ scrapeo.egg-info/*
 /build/*
 /docs/build/html/
 /docs/build/html/*
+/docs/build/doctrees/
+/docs/build/doctrees/*
