@@ -83,34 +83,15 @@ A command-line SEO web scraping / analysis tool
 
 ### Changelog ###
 
-#### 0.1.1.rc ####
+#### 0.1.1 ####
 * Move from Python's html.parser to the external `html5lib` package to help deal with different forms of empty tags, eg. `<meta>` and `<meta />`
 * Docs (generated using Sphinx and autodoc)
-* Fixed a bug distorting search results when `-r` and `-t` are both provided as options
 * Python 2 compatibility
-
-
-#### 0.1.1.b ####
-* Installation instructions
-* Google-style docstrings for public API
-* Big improvements in terms of CLI flexibility as well as bug-fixes
-* Two user-defined exceptions: `ElementAttributeError` and `ElementNotFoundError`
-* Exception handling for CLI
 * `-c` canonical link option added
-* Fixed a bug preventing all search results from showing if a single query came up with no results
-
-
-#### 0.1.1.a1 ####
-* Change make deploy virtualenv directory location
-* Added `-s` CLI option for specifiying what element attribute to scrape a value from
-* Improved and better named tests
-
-
-#### 0.1.1.dev1 ####
-* Unnecessary relative imports removed from CLI script
-* Flag for scraping the content attribute of a robots meta tag
+* `-s` option for specifiying what element attribute to scrape a value from
+* `-r` flag for scraping the content attribute of a robots meta tag
 * `-H` option for scraping the text from the first heading by type (h1,h2,h3,etc.)
-
+* Numerous bug fixes
 
 #### 0.1.0 ####
 * Initial development release
