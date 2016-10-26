@@ -138,7 +138,7 @@ def main():
             # element found, but missing attribute specified by '-s'
             print('The element returned by your search does not '
                   'contain the attribute "%s": %s' % (e.attr,
-                  e.element))
+                                                      e.element))
 
         except ElementNotFoundError as e:
             print('No elements found.: %s' % vars(e))

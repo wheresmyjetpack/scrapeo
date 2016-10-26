@@ -6,8 +6,6 @@ object, search by combinations of element attribute and value pairs,
 and scrape node and attribute value text from nodes.
 """
 
-import re
-
 from bs4 import BeautifulSoup
 
 import scrapeo.exceptions as exceptions
@@ -125,8 +123,8 @@ class DomNavigator(object):
 
         if tag is None:
             exceptions.raise_element_not_found_error(search_term=keyword,
-                                                 value=search_val,
-                                                 attrs=kwargs)
+                                                     value=search_val,
+                                                     attrs=kwargs)
             return
         return tag
 
