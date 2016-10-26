@@ -56,8 +56,6 @@ A command-line SEO web scraping / analysis tool
     |       `-- index.rst
     |-- scrapeo
     |   |-- __init__.py
-    |   |-- data
-    |   |   `-- some_data.html
     |   |-- utils
     |   |   |-- __init__.py
     |   |   `-- web_scraper.py
