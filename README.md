@@ -35,7 +35,7 @@ A command-line SEO web scraping / analysis tool
 * **make source** - build source tarball
 * **make wheel** - build Python wheel
 * **make daily** - make daily snapshot
-* **make deploy** - create vitrual environment
+* **make deploy** - create vitrual environment and install
 * **make install** - install program
 * **make init** - install all requirements
 * **make clean** - clean project, remove .pyc and other temporary files
