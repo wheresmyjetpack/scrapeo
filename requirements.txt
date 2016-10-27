@@ -24,7 +24,7 @@ pytest==3.0.3
 pytz==2016.7
 requests==2.11.1
 requests-toolbelt==0.7.0
--e git+git@github.com:wheresmyjetpack/scrapeo.git@274c5e8813212d2974ce1dccba5ee245471c5952#egg=scrapeo
+-e git+git@github.com:wheresmyjetpack/scrapeo.git@54f396dbc7a7fa8173193098c6e807e4227ad75f#egg=scrapeo
 six==1.10.0
 snowballstemmer==1.2.1
 Sphinx==1.4.8
