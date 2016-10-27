@@ -30,30 +30,50 @@ class Scrapeo(object):
         self.analyzer = analyzer or ElementAnalyzer()
 
     ### Public ###
-    def get_text(self, element, seo_attr=None):
-        """Search the dom tags and retrieve text from the results.
+    def find_tag(self, search_term, **kwargs):
+        """Find a specific tag from an HTML document.
 
-        .. todo:: Currently this encapsulates functionality to both search and
-            scrape from parsed HTML, but the two bits of functionality
-            should probably be separated into two public methods.
+        Search a document using an element name, attribute-value pairs,
+        or using a single value. Scrapeo will ignore a value assigned
+        to `search_val` if there are any attribute-value pairs provided
+        as keyword arguments.
 
         Args:
-            search_term (str): abritrary term to search the dom for,
-                typically an element name
+            search_term (str): name of an HTML element
 
         Keyword Args:
-            seo_attr (str): specify which attribute to scrape a value from
-            **kwargs: arbitrary number of attr-val pairs to search by
+            search_val (str): for a tag to be returned as a result, one
+                of its attributes must have this value. Used to search
+                tags by value instead of attribute-value pairs.
+            **kwargs: arbitrary element attribute-value pairs to search
+                for
+
+        Returns:
+            obj: An object representing a HTML element, which minimally
+                provides a `text` attribute and a `get` dict-like
+                method.
+        """
+        return self.__dom_search(search_term, **kwargs)
+
+    def get_text(self, element, seo_attr=None):
+        """Get text from an HTML tag.
+
+        Retrieve arbitrary text from an object representing an HTML
+        element by making a call to `self.analyzer`.
+
+        Args:
+            element (obj): the object representing the HTML element
+
+        Keyword Args:
+            seo_attr (str): optionally specify an attribute of the
+                element to scrape a value from
 
         Returns:
             str: The text from an element, which is either the node
-                text or an attribute's value.
+                text or some attribute's value.
         """
         # search the dom for the provided keyword
         return self.__relevant_text(element, seo_attr=seo_attr)
-
-    def find_tag(self, search_term, **kwargs):
-        return self.__dom_search(search_term, **kwargs)
 
     ### Private ###
     def __dom_search(self, search_term, **kwargs):
@@ -110,10 +130,10 @@ class DomNavigator(object):
                 the search terms
         """
         ele_attrs = kwargs
-        return self.__search_for(search_term, search_val, **ele_attrs)
+        return self.__get_tag(search_term, search_val, **ele_attrs)
 
     ### Private ###
-    def __search_for(self, keyword, search_val, **kwargs):
+    def __get_tag(self, keyword, search_val, **kwargs):
         if search_val and not any(kwargs):
             tag = self.__search_by_value(keyword, search_val)
         else:
