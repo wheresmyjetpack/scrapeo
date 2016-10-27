@@ -5,6 +5,7 @@ import os
 
 from unittest.mock import patch, PropertyMock
 from scrapeo.core import ElementAnalyzer
+from tests.stubs import ElementStub
 
 class ElementAnalyzerTest(unittest.TestCase):
 
@@ -26,11 +27,3 @@ class ElementAnalyzerTest(unittest.TestCase):
         self.assertEqual(expected, actual)
 
 
-class ElementStub(object):
-
-    attrs = {'content': 'val', 'property': 'seo'}
-    is_empty_element = False
-    text = 'text'
-
-    def get(self, attr):
-        return self.attrs.get(attr)

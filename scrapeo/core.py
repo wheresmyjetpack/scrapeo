@@ -30,7 +30,7 @@ class Scrapeo(object):
         self.analyzer = analyzer or ElementAnalyzer()
 
     ### Public ###
-    def get_text(self, search_term, **kwargs):
+    def get_text(self, element, seo_attr=None):
         """Search the dom tags and retrieve text from the results.
 
         .. todo:: Currently this encapsulates functionality to both search and
@@ -42,7 +42,6 @@ class Scrapeo(object):
                 typically an element name
 
         Keyword Args:
-            search_val (str): search for a tag containing this value
             seo_attr (str): specify which attribute to scrape a value from
             **kwargs: arbitrary number of attr-val pairs to search by
 
@@ -50,12 +49,11 @@ class Scrapeo(object):
             str: The text from an element, which is either the node
                 text or an attribute's value.
         """
-        search_val, seo_attr = pop_kwargs(kwargs, 'search_val',
-                                          'seo_attr')
         # search the dom for the provided keyword
-        element = self.__dom_search(search_term, search_val=search_val,
-                                    **kwargs)
         return self.__relevant_text(element, seo_attr=seo_attr)
+
+    def find_tag(self, search_term, **kwargs):
+        return self.__dom_search(search_term, **kwargs)
 
     ### Private ###
     def __dom_search(self, search_term, **kwargs):

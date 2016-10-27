@@ -127,20 +127,25 @@ def main():
             element = args.heading_type
             searches.append([element, {}])
 
-    search = lambda s: print(scrapeo.get_text(s[0], **s[1]))
+    search = lambda s: scrapeo.find_tag(s[0], **s[1])
 
     for query in searches:
         try:
-            # find and print the relevant text
-            search(query)
-
-        except ElementAttributeError as e:
-            # element found, but missing attribute specified by '-s'
-            print('The element returned by your search does not '
-                  'contain the attribute "%s": %s' % (e.attr,
-                                                      e.element))
+            # search for tag using paramters from query
+            result = search(query)
 
         except ElementNotFoundError as e:
             print('No elements found.: %s' % vars(e))
+
+        else:
+            # found a tag
+            try:
+                scrapeo.get_text(result)
+
+            except ElementAttributeError as e:
+                # element found, but missing attribute specified by '-s'
+                print('The element returned by your search does not '
+                      'contain the attribute "%s": %s' % (e.attr,
+                                                          e.element))
 
     sys.exit(0)
