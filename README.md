@@ -92,6 +92,7 @@ A command-line SEO web scraping / analysis tool
 * `-r` flag for scraping the content attribute of a robots meta tag
 * `-H` option for scraping the text from the first heading by type (h1,h2,h3,etc.)
 * Numerous bug fixes
+* Test coverage
 
 #### 0.1.0 ####
 * Initial development release
