@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
         name='scrapeo',
-        version='0.1.1rc2',
+        version='0.1.1',
         author='Paul Morris',
         author_email='wheresmyjetpack03@gmail.com',
         url='http://www.scrapeo.org',
@@ -28,7 +28,7 @@ setup(
         exclude_package_data = { '': ['README.txt'] },
         keywords='python tools utils internet www',
         license='GPL',
-        classifiers=['Development Status :: 4 - Beta',
+        classifiers=['Development Status :: 5 - Production/Stable',
             'Natural Language :: English',
             'Operating System :: MacOS :: MacOS X',
             'Operating System :: POSIX :: Linux',

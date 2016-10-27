@@ -13,7 +13,7 @@ source:
 	$(PYTHON) setup.py sdist
 
 wheel:
-	$(PYTHON) setup.py bdist_wheel
+	$(PYTHON) setup.py bdist_wheel --universal
 
 deb:
 	$(PYTHON) setup.py --command-packages=stdeb.command bdist_deb

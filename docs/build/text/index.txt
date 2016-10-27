@@ -132,8 +132,8 @@ class scrapeo.core.Scrapeo(html, dom_parser=None, analyzer=None)
 
       Search the dom tags and retrieve text from the results.
 
-      Currently this encapsulates functionality to both search and
-      scrape from parsed HTML, but the two bits of functionality
+      Todo: Currently this encapsulates functionality to both search
+      and scrape from parsed HTML, but the two bits of functionality
       should probably be separated into two public methods.
 
       Parameters:
