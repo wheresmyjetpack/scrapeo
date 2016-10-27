@@ -15,17 +15,22 @@ class ElementAnalyzerTest(unittest.TestCase):
     def test_gets_node_text_from_element_when_element_is_not_empty(self):
         self.assertEqual('text', self.analyzer.relevant_text(self.element))
 
-    def test_gets_attributes_value_from_element_when_element_is_empty(self):
-        with patch.object(ElementStub, 'is_empty_element', new_callable=PropertyMock) as mock:
-            mock.return_value = True
-            self.assertEqual('val', self.analyzer.relevant_text(self.element))
+    def test_gets_value_of_content_from_element_when_element_is_empty(self):
+        element = ElementStub()
+        element.is_empty_element = True
+        self.assertEqual('val', self.analyzer.relevant_text(element))
+
+    def test_gets_attribute_value_from_element_when_seo_attr_specified(self):
+        expected = 'seo'
+        actual = self.analyzer.relevant_text(self.element, seo_attr='property')
+        self.assertEqual(expected, actual)
 
 
 class ElementStub(object):
 
-    attrs = {'attr': 'val'}
+    attrs = {'content': 'val', 'property': 'seo'}
     is_empty_element = False
     text = 'text'
 
     def get(self, attr):
-        return self.attrs.get('attr')
+        return self.attrs.get(attr)

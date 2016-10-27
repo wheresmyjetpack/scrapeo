@@ -25,13 +25,5 @@ class ScrapeoTest(unittest.TestCase):
             scrapeo.get_text('meta', **kwargs)
             mocked_dom_parser.find.assert_called_with('meta', **expected)
 
-    def test_gets_value_from_seo_attr_when_specified(self):
-        self.assertEqual('UTF-8', self.scrapeo.get_text('meta',
-                         seo_attr='charset',
-                         **{'http-equiv': 'Content-Type'}))
-
-    def test_gets_value_from_content_when_no_seo_attr_specified(self):
-        self.assertEqual('The description', self.scrapeo.get_text('meta', name='description'))
-
     def test_gets_content_from_first_tag_with_attr_value_when_no_attr_specified(self):
         self.assertEqual('noindex,nofollow', self.scrapeo.get_text('meta', search_val='robots'))
