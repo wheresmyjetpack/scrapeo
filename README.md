@@ -10,8 +10,9 @@ A command-line SEO web scraping / analysis tool
 
 
 *Alternative* -- Install via `pip`
-* If installing in a virtualenv, simply run `pip install scrapeo`
-* If installing to your global site-package directory (not recommended), run `pip install --pre scrapeo` since Scrapeo is still in pre-release
+* Simply run `pip install scrapeo` to install from the Python Package Index - OR -
+* Clone the repo, `cd` into the newly created directory and `pip install .`
+* It's recommended that you install scrapeo in a virtualenv instead of in your global site-packages directory
 
 
 ### Concept ###
