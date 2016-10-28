@@ -50,8 +50,7 @@ class Scrapeo(object):
 
         Returns:
             obj: An object representing a HTML element, which minimally
-                provides a `text` attribute and a `get` dict-like
-                method.
+            provides a `text` attribute and a `get` dict-like method.
         """
         return self.__dom_search(search_term, **kwargs)
 
@@ -190,8 +189,8 @@ class ElementAnalyzer(object):
 
         Returns:
             str: node text if self.element is empty / self-closing or
-                if seo_attr is not None; the value of an attribute
-                as text otherwise
+            if seo_attr is not None; the value of an attribute
+            as text otherwise
 
         Raises:
             ElementAttributeError: If seo_attr is not an attribute of

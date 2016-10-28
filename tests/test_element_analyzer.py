@@ -24,5 +24,3 @@ class ElementAnalyzerTest(unittest.TestCase):
         expected = 'seo'
         actual = self.analyzer.relevant_text(seo_attr='property')
         self.assertEqual(expected, actual)
-
-

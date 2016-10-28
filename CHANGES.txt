@@ -1,3 +1,6 @@
+Release 0.1.2.dev1:
+  - Changes in ElementAnalyzer's public API
+
 Release (official) 0.1.1:
   - More complete test coverage
   - Fixes in documentation
