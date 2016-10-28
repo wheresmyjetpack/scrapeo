@@ -28,13 +28,13 @@ class CLI(object):
     def run_searches(self):
         results = []
         self.prepare_queries()
+        self.prepare_shortcut_queries()
         for query in self.searches:
             result = self.__run_search(query)
             results.append(result)
         return results
 
     def prepare_queries(self):
-        self.prepare_shortcut_queries()
         # default element is a meta tag
         if self.cl_args.metatag_attr or self.cl_args.metatag_val:
             element = 'meta'
