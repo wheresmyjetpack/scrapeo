@@ -3,7 +3,13 @@
 import requests
 
 
-def scrape(req):
+def scrape(url):
+    try:
+        req = do_GET(url)
+    except requests.exceptions.MissingSchema:
+        url = 'http://' + url
+        print('Rebuilding URL to %s\n' % url)
+        req = do_GET(url)
     return document_from(req)
 
 def do_GET(url):

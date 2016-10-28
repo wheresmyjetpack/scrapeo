@@ -66,15 +66,7 @@ def main():
     #print(args)
 
     url = args.url
-    # if the URL is missing the HTTP schema, add it
-    try:
-        req = web_scraper.do_GET(url)
-    except requests.exceptions.MissingSchema:
-        url = 'http://' + url
-        print('Rebuilding URL to %s\n' % url)
-        req = web_scraper.do_GET(url)
-
-    html = web_scraper.scrape(req)
+    html = web_scraper.scrape(url)
 
     # initialize scrapeo
     scrapeo = Scrapeo(html)
