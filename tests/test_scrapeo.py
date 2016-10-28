@@ -5,8 +5,8 @@ import os
 import re
 
 from bs4 import BeautifulSoup
-from unittest.mock import Mock
-from scrapeo.core import Scrapeo
+from unittest.mock import Mock, patch
+from scrapeo.core import Scrapeo, ElementAnalyzer
 from tests.stubs import ElementStub
 
 class ScrapeoTest(unittest.TestCase):
@@ -28,8 +28,7 @@ class ScrapeoTest(unittest.TestCase):
     # @unittest.skip('skipping')
     def test_sends_relevant_text_to_analyzer(self):
         with open(self.html_file, 'r') as html:
-            mocked_analyzer = Mock()
-            scrapeo = Scrapeo(html.read(), analyzer=mocked_analyzer)
-            expected_tag = ElementStub
-            scrapeo.get_text(expected_tag, seo_attr='charset')
-            mocked_analyzer.relevant_text.assert_called_with(expected_tag, seo_attr='charset')
+            scrapeo = Scrapeo(html.read())
+            with patch.object(ElementAnalyzer, 'relevant_text') as mock_relevant_text:
+                scrapeo.get_text(ElementStub(), seo_attr='charset')
+                mock_relevant_text.assert_called_with(seo_attr='charset')

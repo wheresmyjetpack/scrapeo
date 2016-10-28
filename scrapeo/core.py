@@ -21,13 +21,13 @@ class Scrapeo(object):
         html (str): string, HTML in text format
 
     Keyword Args:
-        dom_parser (obj): an object that responds to the find message
-        analyzer (obj): an object that responds to the relevant_text
-            message
+        dom_parser (obj): an object that responds to the `find` message
+        analyzer (type): a class name which, when instantiated, responds
+            to the `relevant_text` message
     """
     def __init__(self, html, dom_parser=None, analyzer=None):
         self.dom_parser = dom_parser or self.__default_dom_parser()(html)
-        self.analyzer = analyzer or ElementAnalyzer()
+        self.analyzer = analyzer or ElementAnalyzer
 
     ### Public ###
     def find_tag(self, search_term, **kwargs):
@@ -72,15 +72,15 @@ class Scrapeo(object):
             str: The text from an element, which is either the node
                 text or some attribute's value.
         """
-        # search the dom for the provided keyword
         return self.__relevant_text(element, seo_attr=seo_attr)
 
     ### Private ###
     def __dom_search(self, search_term, **kwargs):
         return self.dom_parser.find(search_term, **kwargs)
 
-    def __relevant_text(self, node, seo_attr=None):
-        return self.analyzer.relevant_text(node, seo_attr=seo_attr)
+    def __relevant_text(self, element, seo_attr=None):
+        analyzer = self.analyzer(element)
+        return analyzer.relevant_text(seo_attr=seo_attr)
 
     def __default_dom_parser(self):
         return DomNavigator
@@ -165,58 +165,58 @@ class ElementAnalyzer(object):
     """Get text from an HTML element.
 
     Determines what useful or relevant text an HTML element contains
-    and returns it as a string.
+    and returns it as a string. Takes an object that represents an
+    HTML element as a positional argument.
+
+    Args:
+        element (obj): an object that responds to messages for the
+            `text` (str) and `is_empty_element` (bool) attributes,
+            and has a dict-like `get` method
     """
-    def __init__(self):
-        pass
+    def __init__(self, element):
+        self.element = element
 
     ### Public ###
-    def relevant_text(self, element, seo_attr=None):
+    def relevant_text(self, seo_attr=None):
         """Get pertinent text from an HTML element.
 
         Given an element's type and (optionally) a particular attribute,
         retrieve text from the element. Text could either be the text
         content of the node or the value of a particular attribute.
 
-        Args:
-            element (obj): object representing an HTML element which
-                should implement the attributes is_empty_element and
-                text, and support a dict-like get method for accessing
-                attributes
-
         Keyword Args:
             seo_attr (str): attribute of element to retrieve a value
                 from
 
         Returns:
-            str: node text if the element is empty / self-closing or
-                if seo_attr is not None, element attribute value as text
-                otherwise
+            str: node text if self.element is empty / self-closing or
+                if seo_attr is not None; the value of an attribute
+                as text otherwise
 
         Raises:
             ElementAttributeError: If seo_attr is not an attribute of
                 element
         """
-        if self.__is_empty_element(element) or seo_attr is not None:
-            return self.__value_from_attr(element, seo_attr)
-        return self.__node_text(element)
+        if self.__is_empty_element() or seo_attr is not None:
+            return self.__value_from_attr(seo_attr)
+        return self.__node_text()
 
     ### Private ###
-    def __value_from_attr(self, element, seo_attr):
+    def __value_from_attr(self, seo_attr):
         attr = 'content'
         if seo_attr is not None:
             # Overwrite the value of the relevant attribute
             attr = seo_attr
-        val = element.get(attr)
+        val = self.element.get(attr)
 
         if val is None:
-            exceptions.raise_element_attribute_error(element=element,
+            exceptions.raise_element_attribute_error(element=self.element,
                                                      attr=attr)
         else:
             return val
 
-    def __node_text(self, element):
-        return element.text
+    def __node_text(self):
+        return self.element.text
 
-    def __is_empty_element(self, element):
-        return element.is_empty_element
+    def __is_empty_element(self):
+        return self.element.is_empty_element
