@@ -28,7 +28,6 @@ class CLI(object):
     def run_searches(self):
         results = []
         self.prepare_queries()
-        print('FFOOOOOOBBBARRRR')
         for query in self.searches:
             result = self.__run_search(query)
             results.append(result)
@@ -37,22 +36,23 @@ class CLI(object):
     def prepare_queries(self):
         self.prepare_shortcut_queries()
         # default element is a meta tag
-        element = 'meta'
-        # --attr, --val
-        search_params = {}
-        # --seoattribute
-        if self.cl_args.seo_attr is not None:
-            search_params['seo_attr'] = self.cl_args.seo_attr
-        # --val only
-        if self.cl_args.metatag_val and not self.cl_args.metatag_attr:
-            search_params['search_val'] = self.cl_args.metatag_val
-        # --attr only
-        elif self.cl_args.metatag_attr and not self.cl_args.metatag_val:
-            search_params[self.cl_args.metatag_attr] = re.compile('.*')
-        # --attr and --val
-        else:
-            search_params[self.cl_args.metatag_attr] = self.cl_args.metatag_val
-        self.prepare_query(element, search_params)
+        if self.cl_args.metatag_attr or self.cl_args.metatag_val:
+            element = 'meta'
+            # --attr, --val
+            search_params = {}
+            # --seoattribute
+            if self.cl_args.seo_attr is not None:
+                search_params['seo_attr'] = self.cl_args.seo_attr
+            # --val only
+            if self.cl_args.metatag_val and not self.cl_args.metatag_attr:
+                search_params['search_val'] = self.cl_args.metatag_val
+            # --attr only
+            elif self.cl_args.metatag_attr and not self.cl_args.metatag_val:
+                search_params[self.cl_args.metatag_attr] = re.compile('.*')
+            # --attr and --val
+            else:
+                search_params[self.cl_args.metatag_attr] = self.cl_args.metatag_val
+            self.prepare_query(element, search_params)
 
     def prepare_query(self, element, search_params):
         self.searches.append([element, search_params])
