@@ -9,7 +9,6 @@ and scrape node and attribute value text from nodes.
 from bs4 import BeautifulSoup
 
 import scrapeo.exceptions as exceptions
-from .helpers import pop_kwargs
 
 class Scrapeo(object):
     """Parse HTML into an object, search and get relevant element text.
@@ -26,7 +25,10 @@ class Scrapeo(object):
             to the `relevant_text` message
     """
     def __init__(self, html, dom_parser=None, analyzer=None):
-        self.dom_parser = dom_parser or self.__default_dom_parser()(html)
+        if dom_parser is None:
+            self.__set_default_dom_parser(html)
+        else:
+            self.dom_parser = dom_parser
         self.analyzer = analyzer or ElementAnalyzer
 
     ### Public ###
@@ -69,7 +71,7 @@ class Scrapeo(object):
 
         Returns:
             str: The text from an element, which is either the node
-                text or some attribute's value.
+            text or some attribute's value.
         """
         return self.__relevant_text(element, seo_attr=seo_attr)
 
@@ -81,8 +83,8 @@ class Scrapeo(object):
         analyzer = self.analyzer(element)
         return analyzer.relevant_text(seo_attr=seo_attr)
 
-    def __default_dom_parser(self):
-        return DomNavigator
+    def __set_default_dom_parser(self, html):
+        self.dom_parser = DomNavigator(html)
 
 
 class DomNavigator(object):
