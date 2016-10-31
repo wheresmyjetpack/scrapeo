@@ -10,6 +10,7 @@ import requests.exceptions
 
 # Relative imports
 from .core import Scrapeo
+from .CLI import CLI
 from .exceptions import ElementNotFoundError, ElementAttributeError
 from .utils import web_scraper
 
@@ -71,76 +72,28 @@ def main():
     # initialize scrapeo
     scrapeo = Scrapeo(html)
     # initialize list used to store each set of search params
-    searches = []
+    cli = CLI(args, dom_interface=scrapeo)
+    cli.dispatch_commands()
 
-    ### process command-line arguments ###
-    # meta subparser
-    if args.command == 'meta':
-        # default element is a meta tag
-        element = 'meta'
-        # --attr, --val
-        if args.metatag_val or args.metatag_attr:
-            kwargs = {}
-            # --seoattribute
-            if args.seo_attr:
-                kwargs['seo_attr'] = args.seo_attr
-            # --val only
-            if args.metatag_val and not args.metatag_attr:
-                kwargs['search_val'] = args.metatag_val
-            # --attr only
-            elif args.metatag_attr and not args.metatag_val:
-                kwargs[args.metatag_attr] = re.compile('.*')
-            # --attr and --val
-            else:
-                kwargs[args.metatag_attr] = args.metatag_val
-            searches.append([element, kwargs])
-
-        # --description
-        if args.meta_description:
-            searches.append([element, {'name': 'description'}])
-
-        # --robots
-        if args.robots_meta:
-            searches.append([element, {'name': 'robots'}])
-
-        # --title
-        if args.title_tag:
-            element = 'title'
-            searches.append([element, {}])
-
-        # --canonical
-        if args.canonical:
-            element = 'link'
-            searches.append([element, {'rel': 'canonical',
-                                       'seo_attr': 'href'}])
-
-    # content subparser
-    if args.command == 'content':
-        # --heading 
-        if args.heading_type:
-            element = args.heading_type
-            searches.append([element, {}])
-
-    for query in searches:
-        try:
-            # search for tag using paramters from query
-            search_params = {k: v for k, v in query[1].items() if 'seo_attr' not in k}
-            result = scrapeo.find_tag(query[0], **search_params)
-
-        except ElementNotFoundError as e:
-            print('No elements found.: %s' % vars(e))
-
-        else:
-            # found a tag
+    if any(cli.searches):
+        for query in cli.searches:
             try:
-                seo_attr = query[1].get('seo_attr')
-                # get the desired text from the found element
-                print(scrapeo.get_text(result, seo_attr=seo_attr))
+                # search for tag using paramters from query
+                result = cli.run_search(query)
 
-            except ElementAttributeError as e:
-                # element found, but missing attribute specified by '-s'
-                print('The element returned by your search does not '
-                      'contain the attribute "%s": %s' % (e.attr,
-                                                          e.element))
+            except ElementNotFoundError as e:
+                print('No elements found.: %s' % vars(e))
 
-    sys.exit(0)
+            else:
+                # found a tag
+                try:
+                    # get the desired text from the found element
+                    print(cli.scrape_text(result))
+
+                except ElementAttributeError as e:
+                    # element found, but missing attribute specified by '-s'
+                    print('The element returned by your search does not '
+                          'contain the attribute "%s": %s' % (e.attr,
+                                                              e.element))
+
+        sys.exit(0)

@@ -15,8 +15,8 @@ class CLI(object):
         self.cl_args = cl_args
         self.dom_interface = dom_interface
         self.searches = []
-        self.dispatch = {'meta': self.run_searches,
-                        'content': self.run_searches}
+        self.dispatch = {'meta': self.prepare_queries,
+                        'content': self.prepare_queries}
         self.shortcuts = {'meta_description': ['meta', {'name': 'description'}],
                           'robots_meta': ['meta', {'name': 'robots'}],
                           'title_tag': ['title', {}],
@@ -25,14 +25,14 @@ class CLI(object):
     def dispatch_commands(self):
         return self.dispatch[self.cl_args.command]()
 
-    def run_searches(self):
-        results = []
-        self.prepare_queries()
-        self.prepare_shortcut_queries()
-        for query in self.searches:
-            result = self.__run_search(query)
-            results.append(result)
-        return results
+    def run_search(self, query):
+        element = query[0]
+        search_params = query[1]
+        return self.dom_interface.find_tag(element, **search_params)
+
+    def scrape_text(self, element):
+        seo_attr = self.cl_args.seo_attr
+        return self.dom_interface.get_text(element, seo_attr=seo_attr)
 
     def prepare_queries(self):
         # default element is a meta tag
@@ -40,9 +40,6 @@ class CLI(object):
             element = 'meta'
             # --attr, --val
             search_params = {}
-            # --seoattribute
-            if self.cl_args.seo_attr is not None:
-                search_params['seo_attr'] = self.cl_args.seo_attr
             # --val only
             if self.cl_args.metatag_val and not self.cl_args.metatag_attr:
                 search_params['search_val'] = self.cl_args.metatag_val
@@ -53,9 +50,7 @@ class CLI(object):
             else:
                 search_params[self.cl_args.metatag_attr] = self.cl_args.metatag_val
             self.prepare_query(element, search_params)
-
-    def prepare_query(self, element, search_params):
-        self.searches.append([element, search_params])
+        self.prepare_shortcut_queries()
 
     def prepare_shortcut_queries(self):
         shortcuts = self.get_shortcuts()
@@ -64,15 +59,14 @@ class CLI(object):
             search_params = self.shortcuts[shortcut][1]
             self.prepare_query(element, search_params)
 
+    def prepare_query(self, element, search_params):
+        self.searches.append([element, search_params])
+
     def get_shortcuts(self):
         shortcut_keys = self.shortcuts.keys()
         shortcuts = []
         for shortcut in shortcut_keys:
-            if shortcut in vars(self.cl_args).keys():
+            args_dict = vars(self.cl_args)
+            if args_dict[shortcut]:
                 shortcuts.append(shortcut)
         return shortcuts
-
-    def __run_search(self, query):
-        element = query[0]
-        search_params = query[1]
-        return self.dom_interface.find_tag(element, **search_params)
