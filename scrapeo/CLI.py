@@ -5,9 +5,6 @@ This module provides the CLI class, responsible for handling parsed
 command line arguments and sending messages to the Scrapeo object.
 """
 
-from .core import Scrapeo
-from .utils import web_scraper
-
 
 class CLI(object):
 
