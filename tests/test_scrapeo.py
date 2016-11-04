@@ -20,9 +20,10 @@ class ScrapeoTest(unittest.TestCase):
         with open(self.html_file, 'r') as html:
             mocked_dom_parser = Mock()
             scrapeo = Scrapeo(html.read(), dom_parser=mocked_dom_parser)
-            expected = {'search_val': 'Content-Type',
-                           'content': 'text/html'}
-            scrapeo.find_tag('meta', **expected)
+            search_terms = {'search_val': 'Content-Type',
+                            'content': 'text/html', 'element': 'meta'}
+            scrapeo.find_tag(**search_terms)
+            expected = {k: v for k, v in search_terms.items() if not k == 'element'}
             mocked_dom_parser.find.assert_called_with('meta', **expected)
 
     # @unittest.skip('skipping')

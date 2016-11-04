@@ -3,6 +3,8 @@
 from __future__ import print_function
 
 import argparse
+import json
+import os
 import re
 import sys
 
@@ -10,9 +12,14 @@ import requests.exceptions
 
 # Relative imports
 from .core import Scrapeo
-from .CLI import CLI
+from .CLI import QueryBuilder
 from .exceptions import ElementNotFoundError, ElementAttributeError
 from .utils import web_scraper
+
+PARENT_DIR = os.path.dirname(__file__)
+SHORTCUTS_CONFIG_FILE = os.path.join(PARENT_DIR, 'shortcuts.conf')
+with open(SHORTCUTS_CONFIG_FILE, 'r') as fh:
+    SHORTCUTS_CONFIG = json.load(fh)
 
 # TODO add pretty text formatting
 # TODO add option to check what HTML spec a site makes use of
@@ -72,14 +79,15 @@ def main():
     # initialize scrapeo
     scrapeo = Scrapeo(html)
     # initialize list used to store each set of search params
-    cli = CLI(args, dom_interface=scrapeo)
-    cli.dispatch_commands()
+    query_builder = QueryBuilder(vars(args), config=SHORTCUTS_CONFIG)
+    query_builder.prepare_queries()
 
-    if any(cli.searches):
-        for query in cli.searches:
+    if any(query_builder.queries):
+        for query in query_builder.queries:
             try:
                 # search for tag using paramters from query
-                result = cli.run_search(query)
+                search_params = {k: v for k, v in query.items() if not k == 'seo_attr'}
+                result = scrapeo.find_tag(**search_params)
 
             except ElementNotFoundError as e:
                 print('No elements found.: %s' % vars(e))
@@ -88,7 +96,9 @@ def main():
                 # found a tag
                 try:
                     # get the desired text from the found element
-                    print(cli.scrape_text(result))
+                    seo_attr = query.get('seo_attr')
+                    print(scrapeo.get_text(result,
+                                           seo_attr=seo_attr))
 
                 except ElementAttributeError as e:
                     # element found, but missing attribute specified by '-s'

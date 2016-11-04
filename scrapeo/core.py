@@ -32,7 +32,7 @@ class Scrapeo(object):
         self.analyzer = analyzer or ElementAnalyzer
 
     ### Public ###
-    def find_tag(self, search_term, **kwargs):
+    def find_tag(self, **kwargs):
         """Find a specific tag from an HTML document.
 
         Search a document using an element name, attribute-value pairs,
@@ -40,10 +40,8 @@ class Scrapeo(object):
         to `search_val` if there are any attribute-value pairs provided
         as keyword arguments.
 
-        Args:
-            search_term (str): name of an HTML element
-
         Keyword Args:
+            search_term (str): name of an HTML element
             search_val (str): for a tag to be returned as a result, one
                 of its attributes must have this value. Used to search
                 tags by value instead of attribute-value pairs.
@@ -54,6 +52,7 @@ class Scrapeo(object):
             obj: An object representing a HTML element, which minimally
             provides a `text` attribute and a `get` dict-like method.
         """
+        search_term = kwargs.pop('element')
         return self.__dom_search(search_term, **kwargs)
 
     def get_text(self, element, seo_attr=None):
