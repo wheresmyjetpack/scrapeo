@@ -5,10 +5,9 @@ from __future__ import print_function
 import argparse
 import json
 import os
-import re
 import sys
 
-import requests.exceptions
+#import requests.exceptions
 
 # Relative imports
 from .core import Scrapeo
@@ -70,15 +69,11 @@ def main():
     decides what to do with the parsed arguments, possibly a CLI class?
     """
     args = argparser.parse_args()
-    # DEBUG
-    #print(args)
-
     url = args.url
-    html = web_scraper.scrape(url)
-
+    html = web_scraper.scrape(url)    # TODO need a try-except here
     # initialize scrapeo
     scrapeo = Scrapeo(html)
-    # initialize list used to store each set of search params
+    # initialize a QueryBuilder to sort search parameters
     query_builder = QueryBuilder(vars(args), config=SHORTCUTS_CONFIG)
     query_builder.prepare_queries()
 
@@ -87,6 +82,7 @@ def main():
             try:
                 # search for tag using paramters from query
                 search_params = {k: v for k, v in query.items() if not k == 'seo_attr'}
+                print(search_params)
                 result = scrapeo.find_tag(**search_params)
 
             except ElementNotFoundError as e:

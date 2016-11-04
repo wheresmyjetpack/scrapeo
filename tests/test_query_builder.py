@@ -19,3 +19,9 @@ class QueryBuilderTest(unittest.TestCase):
         query_builder = QueryBuilder(params, config=config)
         query_builder.prepare_queries()
         self.assertEqual([{'element': 'meta', 'name': 'robots'}], query_builder.queries)
+
+    def test_sets_query_search_val(self):
+        params = {'metatag_attr': None, 'metatag_val': 'description', 'seo_attr': None}
+        query_builder = QueryBuilder(params)
+        query_builder.prepare_queries()
+        self.assertEqual([{'element': 'meta', 'search_val': 'description'}], query_builder.queries)

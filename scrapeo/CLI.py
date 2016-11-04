@@ -42,8 +42,9 @@ class QueryBuilder(object):
         if self.__has_param('metatag_attr') or self.__has_param('metatag_val'):
             search_params = {}
             search_params['search_val'] = self.__set_search_val()
-            metatag_attr = self.collected_params['metatag_attr']
-            search_params[metatag_attr] = self.__set_attr_val()
+            if self.__has_param('metatag_attr'):
+                metatag_attr = self.collected_params['metatag_attr']
+                search_params[metatag_attr] = self.__set_attr_val()
             search_params['element'] = element
             self.queries.append(search_params)
 
