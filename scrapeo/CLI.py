@@ -8,7 +8,23 @@ line interface to handle arguments passed to the program.
 import re
 
 class QueryBuilder(object):
-    """A class for sorting paramaters into dict-type queries"""
+    """A class for sorting paramaters into dict-type queries
+
+    Given a dictionary containing they keys `metatag_attr` and
+    `metatag_val`, build queries that are suitable to pass to Scrapeo
+    for the purpose of searching the DOM.
+
+    Args:
+        collected_params (dict): Dictionary containing (at the very
+            least) `metatag_attr` and `metatag_val` keys. Used to build
+            custom queries. May also contain keys with boolean values
+            whose names match up with `config` dictionary keys.
+
+    Keyword Args:
+        config (dict): A dictionary defining "shortcut" queries which
+            can be referenced by their keys in the
+            `prepare_shortcut_queries` public method.
+    """
 
     def __init__(self, collected_params, config=None):
         self.collected_params = collected_params
