@@ -21,15 +21,11 @@ class QueryBuilder(object):
         self.prepare_options_queries()
         self.prepare_shortcut_queries()
 
-    def prepare_options_queries(self):
+    def prepare_options_queries(self, element='meta'):
         """Handle key-value pair combinations"""
         if self.__has_param('metatag_attr') or self.__has_param('metatag_val'):
-            element = 'meta'
-            # --attr, --val
             search_params = {}
-            # --val only
             search_params['search_val'] = self.__set_search_val()
-            # --attr only
             metatag_attr = self.collected_params['metatag_attr']
             search_params[metatag_attr] = self.__set_attr_val()
             search_params['element'] = element
@@ -43,13 +39,19 @@ class QueryBuilder(object):
 
     ### Private ###
     def __set_search_val(self):
+        # is there a meta value but no attribute?
         if self.__has_param('metatag_val') and not self.__has_param('metatag_attr'):
+            # return value stored in the 'metatag_val' key
             return self.collected_params['metatag_val']
+        # explicitly returning None if condition not met
         return None
 
     def __set_attr_val(self):
+        # is there a meta attribute but no value?
         if self.__has_param('metatag_attr') and not self.__has_param('metatag_val'):
+            # value can be anything
             return re.compile('.*')
+        # or the value will just be whatever is stored
         return self.collected_params['metatag_val']
 
     def __has_param(self, param):

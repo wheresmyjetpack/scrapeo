@@ -64,7 +64,7 @@ parser_meta.add_argument('-c', '--canonical', action='store_true')
 argparser.add_argument('url')
 
 def main():
-    """Main function for scrapeo.
+    """Main function for scrapeo CLI.
 
     .. todo:: Reafctor a lot of this into a separate object that
     decides what to do with the parsed arguments, possibly a CLI class?
