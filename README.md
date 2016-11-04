@@ -64,7 +64,8 @@ A command-line SEO web scraping / analysis tool
     |   |-- core.py
     |   |-- exceptions.py
     |   |-- main.py
-    |   `-- helpers.py
+    |   |-- helpers.py
+    |   `-- shortcts.conf
     |-- tests
     |   |-- data
     |   |   `-- document.html
