@@ -7,7 +7,7 @@ import json
 import os
 import sys
 
-#import requests.exceptions
+import requests.exceptions
 
 # Relative imports
 from .core import Scrapeo
@@ -66,7 +66,11 @@ def main():
     argparser.add_argument('url')
     args = argparser.parse_args()
     url = args.url
-    html = web_scraper.scrape(url)    # TODO need a try-except here
+    try:
+        html = web_scraper.scrape(url)    # TODO need a try-except here
+    except requests.exceptions.ConnectionError as e:
+        print(e)
+        sys.exit(1)
     # initialize scrapeo
     scrapeo = Scrapeo(html)
     # initialize a QueryBuilder to sort search parameters

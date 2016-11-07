@@ -46,6 +46,7 @@ class QueryBuilder(object):
                 metatag_attr = self.collected_params['metatag_attr']
                 search_params[metatag_attr] = self.__set_attr_val()
             search_params['element'] = element
+            search_params['seo_attr'] = self.collected_params.get('seo_attr')
             self.queries.append(search_params)
 
     def prepare_shortcut_queries(self):
