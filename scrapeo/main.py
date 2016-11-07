@@ -23,51 +23,47 @@ with open(SHORTCUTS_CONFIG_FILE, 'r') as fh:
 # TODO add pretty text formatting
 # TODO add option to check what HTML spec a site makes use of
 
-argparser = argparse.ArgumentParser(
-    prog='scrapeo',
-    description='A command-line web scraper and SEO analysis tool')
-
-# add sub-parsers
-subparsers = argparser.add_subparsers(help='sub-command help',
-                                      dest='command')
-
-### content sub-command ###
-parser_content = subparsers.add_parser('content',
-                                       help='content help')
-# options
-parser_content.add_argument('-H', '--heading', nargs='?',
-                            dest='heading_type', const='h1')
-
-### meta sub-command ###
-parser_meta = subparsers.add_parser('meta', help='meta help')
-# options
-parser_meta.add_argument('-a', '--attr',
-                         nargs='?', metavar='attribute',
-                         dest='metatag_attr', const='name')
-parser_meta.add_argument('-v', '--val', metavar='value',
-                         dest='metatag_val')
-parser_meta.add_argument('-s', '--seoattribute', nargs='?',
-                         metavar='relevant_attribute', dest='seo_attr')
-# flags
-parser_meta.add_argument('-t', '--title', dest='title_tag',
-                         action='store_true')
-parser_meta.add_argument('-d', '--description',
-                         dest='meta_description',
-                         action='store_true')
-parser_meta.add_argument('-r', '--robots', dest='robots_meta',
-                         action='store_true')
-parser_meta.add_argument('-c', '--canonical', action='store_true')
-
-# TODO add a flag to turn off text output formatting
-# URL positional argument
-argparser.add_argument('url')
-
 def main():
-    """Main function for scrapeo CLI.
+    """Main function for scrapeo CLI."""
 
-    .. todo:: Reafctor a lot of this into a separate object that
-    decides what to do with the parsed arguments, possibly a CLI class?
-    """
+    argparser = argparse.ArgumentParser(
+        prog='scrapeo',
+        description='A command-line web scraper and SEO analysis tool')
+
+    # add sub-parsers
+    subparsers = argparser.add_subparsers(help='sub-command help',
+                                          dest='command')
+
+    ### content sub-command ###
+    parser_content = subparsers.add_parser('content',
+                                           help='content help')
+    # options
+    parser_content.add_argument('-H', '--heading', nargs='?',
+                                dest='heading_type', const='h1')
+
+    ### meta sub-command ###
+    parser_meta = subparsers.add_parser('meta', help='meta help')
+    # options
+    parser_meta.add_argument('-a', '--attr',
+                             nargs='?', metavar='attribute',
+                             dest='metatag_attr', const='name')
+    parser_meta.add_argument('-v', '--val', metavar='value',
+                             dest='metatag_val')
+    parser_meta.add_argument('-s', '--seoattribute', nargs='?',
+                             metavar='relevant_attribute', dest='seo_attr')
+    # flags
+    parser_meta.add_argument('-t', '--title', dest='title_tag',
+                             action='store_true')
+    parser_meta.add_argument('-d', '--description',
+                             dest='meta_description',
+                             action='store_true')
+    parser_meta.add_argument('-r', '--robots', dest='robots_meta',
+                             action='store_true')
+    parser_meta.add_argument('-c', '--canonical', action='store_true')
+
+    # TODO add a flag to turn off text output formatting
+    # URL positional argument
+    argparser.add_argument('url')
     args = argparser.parse_args()
     url = args.url
     html = web_scraper.scrape(url)    # TODO need a try-except here
@@ -79,10 +75,9 @@ def main():
 
     if any(query_builder.queries):
         for query in query_builder.queries:
+            # search for tag using paramters from query
+            search_params = {k: v for k, v in query.items() if not k == 'seo_attr'}
             try:
-                # search for tag using paramters from query
-                search_params = {k: v for k, v in query.items() if not k == 'seo_attr'}
-                print(search_params)
                 result = scrapeo.find_tag(**search_params)
 
             except ElementNotFoundError as e:
@@ -90,9 +85,9 @@ def main():
 
             else:
                 # found a tag
+                # get the desired text from the found element
+                seo_attr = query.get('seo_attr')
                 try:
-                    # get the desired text from the found element
-                    seo_attr = query.get('seo_attr')
                     print(scrapeo.get_text(result,
                                            seo_attr=seo_attr))
 

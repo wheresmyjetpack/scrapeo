@@ -14,7 +14,7 @@ def scrape(url):
 
 def do_GET(url):
     req = requests.get(url)
-    req.raise_for_status
+    req.raise_for_status()
     return req
 
 def document_from(request):
