@@ -4,73 +4,75 @@
 This module provides classes and functions used in Scrapeo's command-
 line interface to handle arguments passed to the program.
 """
+### Notes ###
+# query_key and query_val: {query_key: query_val}
+# query_key and not query_val: {query_key: .*}
+# not query_key and query_val: {search_val: query_val}
+
 
 import re
 
 class QueryBuilder(object):
-    """A class for sorting paramaters into dict-type queries
 
-    Given a dictionary containing they keys `metatag_attr` and
-    `metatag_val`, build queries that are suitable to pass to Scrapeo
-    for the purpose of searching the DOM.
+    def __init__(self, config=None):
+        self._queries = []
+        self._collected_params = None
+        self._config = config or {}
 
-    Args:
-        collected_params (dict): Dictionary containing (at the very
-            least) `metatag_attr` and `metatag_val` keys. Used to build
-            custom queries. May also contain keys with boolean values
-            whose names match up with `config` dictionary keys.
+    def build_queries(self, params):
+        # should return an iterator of built queries
+        self._collected_params = params
+        for param_set in self.collected_params:
+            query = self.build_query(param_set)
+            self._queries.append(query)
+        return self._queries
 
-    Keyword Args:
-        config (dict): A dictionary defining "shortcut" queries which
-            can be referenced by their keys in the
-            `prepare_shortcut_queries` public method.
-    """
+    def build_query(self, param_set):
+        query = self.__new_query()
+        return query.build(param_set)
 
-    def __init__(self, collected_params, config=None):
-        self.collected_params = collected_params
-        self.queries = []
-        self.shortcuts = config or {}
+    @property
+    def collected_params(self):
+        return self.__group_params()
 
-    ### Public ###
-    def prepare_queries(self):
-        """Set the object's state so that it holds all parsed queries"""
-        self.prepare_options_queries()
-        self.prepare_shortcut_queries()
+    @property
+    def shortcuts(self):
+        return self._config.get('shortcuts', {})
 
-    def prepare_options_queries(self, element='meta'):
-        """Handle key-value pair combinations"""
-        if self.__has_param('metatag_attr') or self.__has_param('metatag_val'):
-            search_params = {}
-            search_params['search_val'] = self.__set_search_val()
-            if self.__has_param('metatag_attr'):
-                metatag_attr = self.collected_params['metatag_attr']
-                search_params[metatag_attr] = self.__set_attr_val()
-            search_params['element'] = element
-            search_params['seo_attr'] = self.collected_params.get('seo_attr')
-            self.queries.append(search_params)
+    @property
+    def option_names(self):
+        return self._config.get('option_names', [])
 
-    def prepare_shortcut_queries(self):
-        """Handle shortcuts for queries in the form of True/False flags"""
-        for shortcut_name, shortcut in self.shortcuts.items():
-            if self.collected_params.get(shortcut_name, False):
-                self.queries.append(shortcut)
+    def __new_query(self):
+        return Query(config=self.option_names)
 
-    ### Private ###
-    def __set_search_val(self):
-        # is there a meta value but no attribute?
-        if self.__has_param('metatag_val') and not self.__has_param('metatag_attr'):
-            # return value stored in the 'metatag_val' key
-            return self.collected_params['metatag_val']
-        # explicitly returning None if condition not met
-        return None
+    def __group_params(self):
+        # initialize list to collect all params
+        grouped_params = []
+        # add the option params to the list
+        option_params = self.__get_params_from_options()
+        grouped_params.extend(option_params)
+        # add the shortcut params to the list
+        shortcut_params = self.__get_params_from_shortcuts()
+        grouped_params.extend(shortcut_params)
+        return grouped_params
 
-    def __set_attr_val(self):
-        # is there a meta attribute but no value?
-        if self.__has_param('metatag_attr') and not self.__has_param('metatag_val'):
-            # value can be anything
-            return re.compile('.*')
-        # or the value will just be whatever is stored
-        return self.collected_params['metatag_val']
+    def __get_params_from_options(self):
+        option_params = []
+        option_params.append({k: v for k, v in self._collected_params.items() if k in self.option_names})
+        return option_params
 
-    def __has_param(self, param):
-        return self.collected_params.get(param) is not None
+    def __get_params_from_shortcuts(self):
+        shortcut_params = []
+        for shortcut, param_set in self.shortcuts.items():
+            if self._collected_params.get(shortcut, False):
+                shortcut_params.append(param_set)
+        return shortcut_params
+
+class Query(object):
+
+    def __init__(self, config=None):
+        self._config = config or []
+
+    def build(self):
+        pass

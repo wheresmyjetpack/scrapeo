@@ -16,9 +16,9 @@ from .exceptions import ElementNotFoundError, ElementAttributeError
 from .utils import web_scraper
 
 PARENT_DIR = os.path.dirname(__file__)
-SHORTCUTS_CONFIG_FILE = os.path.join(PARENT_DIR, 'shortcuts.conf')
-with open(SHORTCUTS_CONFIG_FILE, 'r') as fh:
-    SHORTCUTS_CONFIG = json.load(fh)
+QUERY_BUILDER_CONFIG_FILE = os.path.join(PARENT_DIR, 'query_builder.conf')
+with open(QUERY_BUILDER_CONFIG_FILE, 'r') as fh:
+    QUERY_BUILDER_CONFIG = json.load(fh)
 
 # TODO add pretty text formatting
 # TODO add option to check what HTML spec a site makes use of
@@ -74,31 +74,29 @@ def main():
     # initialize scrapeo
     scrapeo = Scrapeo(html)
     # initialize a QueryBuilder to sort search parameters
-    query_builder = QueryBuilder(vars(args), config=SHORTCUTS_CONFIG)
-    query_builder.prepare_queries()
+    query_builder = QueryBuilder(vars(args), config=QUERY_BUILDER_CONFIG)
 
-    if any(query_builder.queries):
-        for query in query_builder.queries:
-            # search for tag using paramters from query
-            search_params = {k: v for k, v in query.items() if not k == 'seo_attr'}
+    for query in query_builder.prepare_queries():
+        # search for tag using paramters from query
+        search_params = {k: v for k, v in query.items() if not k == 'seo_attr'}
+        try:
+            result = scrapeo.find_tag(**search_params)
+
+        except ElementNotFoundError as e:
+            print('No elements found.: %s' % vars(e))
+
+        else:
+            # found a tag
+            # get the desired text from the found element
+            seo_attr = query.get('seo_attr')
             try:
-                result = scrapeo.find_tag(**search_params)
+                print(scrapeo.get_text(result,
+                                       seo_attr=seo_attr))
 
-            except ElementNotFoundError as e:
-                print('No elements found.: %s' % vars(e))
+            except ElementAttributeError as e:
+                # element found, but missing attribute specified by '-s'
+                print('The element returned by your search does not '
+                      'contain the attribute "%s": %s' % (e.attr,
+                                                          e.element))
 
-            else:
-                # found a tag
-                # get the desired text from the found element
-                seo_attr = query.get('seo_attr')
-                try:
-                    print(scrapeo.get_text(result,
-                                           seo_attr=seo_attr))
-
-                except ElementAttributeError as e:
-                    # element found, but missing attribute specified by '-s'
-                    print('The element returned by your search does not '
-                          'contain the attribute "%s": %s' % (e.attr,
-                                                              e.element))
-
-        sys.exit(0)
+    sys.exit(0)
