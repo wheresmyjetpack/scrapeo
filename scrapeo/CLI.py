@@ -64,6 +64,27 @@ class QueryBuilder(object):
 
 
 class Query(object):
+    """Combines parameters into a set of key-value pairs usable by Scrapeo
+
+    Query is used primarily to call `build` once to stitch together
+    passed in parameters into a query dictionary. The query dict is
+    constructed based on the `conf` passed into Query, as well as
+    the `query_key` and `query_val` optional args.
+
+    Note:
+        The `conf` optional argument is a complex dictionary. It should
+        at least have two keys, 'options' and 'shortcuts', each of
+        which hold dictionaries as their values. 'options' are the
+        names of keys that you will pass to `build`, with each pair
+        of keys making a new key-value pair themselves.
+
+        'shortcuts' have short, memorable strings as keys to pre-built
+        queries. This allows you to pass in the shortcut key with a value
+        of `True` to build the shortcut from the `conf`.
+
+    Keyword Args:
+
+    """
 
     def __init__(self, conf=None, query_key=None, query_val=None, wildcard_val=None):
         self.options = conf.get('options', {})
