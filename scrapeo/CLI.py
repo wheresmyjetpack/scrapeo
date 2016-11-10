@@ -33,17 +33,11 @@ class QueryBuilder(object):
         return self.__group_params()
 
     @property
-    def options(self):
-        return self._config.get('options', {})
-
-    @property
     def shortcuts(self):
         return self._config.get('shortcuts', {})
 
     def __new_query(self):
-        query_key, query_val = self.options.items()[0]
-        return Query(conf=self.shortcuts, query_key=query_key,
-                     query_val=query_val)
+        return Query(conf=self._config)
 
     def __group_params(self):
         # initialize list to collect all params
@@ -65,51 +59,65 @@ class QueryBuilder(object):
         shortcut_params = []
         for shortcut in self.shortcuts.keys():
             if self._collected_params.get(shortcut, False):
-                shortcut_params.append({shorcut: self._collected_params[shortcut]})
+                shortcut_params.append({shortcut: self._collected_params[shortcut]})
         return shortcut_params
+
 
 class Query(object):
 
-    def __init__(self, conf=None, query_key='', query_val=''):
-        self.conf = conf or {}
-        self.query_key = query_key
-        self.query_val = query_val
-        self._params = None
+    def __init__(self, conf=None, query_key=None, query_val=None, wildcard_val=None):
+        self.options = conf.get('options', {})
+        self.shortcuts = conf.get('shortcuts', {})
+        self.query_key = query_key or self.default_query_key
+        self.query_val = query_val or self.default_query_val
+        self._wildcard = wildcard_val or re.compile('.*')
+        self._params = {}
 
     def build(self, params):
         query = {}
-        first_key = params.keys()[0]
-        if self.__is_shortcut(first_key):
-            return self.conf[first_key]
+        try:
+            first_key = list(params.keys())[0]
+        except IndexError:
+            pass
         else:
-            return self.build_from_options(params)
+            if self.__is_shortcut(first_key):
+                return self.shortcuts[first_key]
+        return self.build_from_options(params)
 
     def build_from_options(self, params):
-        param_key = params.pop(self.query_key)
-        param_val = params.pop(self.query_val)
-        self._params[query_key] = query_val
+        param_key = params.pop(self.query_key, None)
+        param_val = params.pop(self.query_val, None)
         self.__set_query_key_value(param_key, param_val)
         self._params.update(params)
         return self._params
 
+    @property
+    def default_query_key(self):
+        try:
+            return list(self.options.keys())[0]
+        except IndexError:
+            return None
+
+    @property
+    def default_query_val(self):
+        try:
+            return list(self.options.values())[0]
+        except IndexError:
+            return None
+
     def __set_query_key_value(self, key, val):
-        # query_key and query_val: {query_key: query_val}
-        # query_key and not query_val: {query_key: .*}
-        # not query_key and query_val: {search_val: query_val}
         if key is not None and val is not None:
-            return
+            self._params[key] = val
         elif key is not None and val is None:
             self.__set_key_to_wildcard(key)
-            return
         elif key is None and val is not None:
             self.__set_single_value_param(val)
-        del self._params[key]
 
     def __set_key_to_wildcard(self, key):
-        self._params[key] = re.compile('.*')
+        self._params[key] = self._wildcard
 
     def __set_single_value_param(self, val):
-        self._params['search_val'] = self._params[val]
+        self._params['search_val'] = val
 
     def __is_shortcut(self, key):
-        return key in self.conf.keys()
+        return key in self.shortcuts.keys()
