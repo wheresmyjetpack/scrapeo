@@ -26,7 +26,7 @@ class Scrapeo(object):
     """
     def __init__(self, html, dom_parser=None, analyzer=None):
         if dom_parser is None:
-            self.__set_default_dom_parser(html)
+            self._set_default_dom_parser(html)
         else:
             self.dom_parser = dom_parser
         self.analyzer = analyzer or ElementAnalyzer
@@ -53,7 +53,7 @@ class Scrapeo(object):
             provides a `text` attribute and a `get` dict-like method.
         """
         search_term = kwargs.pop('element')
-        return self.__dom_search(search_term, **kwargs)
+        return self._dom_search(search_term, **kwargs)
 
     def get_text(self, element, seo_attr=None):
         """Get text from an HTML tag.
@@ -72,17 +72,17 @@ class Scrapeo(object):
             str: The text from an element, which is either the node
             text or some attribute's value.
         """
-        return self.__relevant_text(element, seo_attr=seo_attr)
+        return self._relevant_text(element, seo_attr=seo_attr)
 
     ### Private ###
-    def __dom_search(self, search_term, **kwargs):
+    def _dom_search(self, search_term, **kwargs):
         return self.dom_parser.find(search_term, **kwargs)
 
-    def __relevant_text(self, element, seo_attr=None):
+    def _relevant_text(self, element, seo_attr=None):
         analyzer = self.analyzer(element)
         return analyzer.relevant_text(seo_attr=seo_attr)
 
-    def __set_default_dom_parser(self, html):
+    def _set_default_dom_parser(self, html):
         self.dom_parser = DomNavigator(html)
 
 
@@ -107,8 +107,8 @@ class DomNavigator(object):
             object
     """
     def __init__(self, html, parser=None, parser_type='html5lib'):
-        self.parser = parser or self.__default_parser()
-        self.dom = self.__parse(html, parser_type)
+        self.parser = parser or self._default_parser()
+        self.dom = self._parse(html, parser_type)
 
     ### Public ###
     def find(self, search_term, search_val=None, **kwargs):
@@ -130,14 +130,14 @@ class DomNavigator(object):
                 the search terms
         """
         ele_attrs = kwargs
-        return self.__get_tag(search_term, search_val, **ele_attrs)
+        return self._get_tag(search_term, search_val, **ele_attrs)
 
     ### Private ###
-    def __get_tag(self, keyword, search_val, **kwargs):
+    def _get_tag(self, keyword, search_val, **kwargs):
         if search_val and not any(kwargs):
-            tag = self.__search_by_value(keyword, search_val)
+            tag = self._search_by_value(keyword, search_val)
         else:
-            tag = self.__search(keyword, **kwargs)
+            tag = self._search(keyword, **kwargs)
 
         if tag is None:
             exceptions.raise_element_not_found_error(search_term=keyword,
@@ -146,18 +146,18 @@ class DomNavigator(object):
             return
         return tag
 
-    def __search(self, keyword, **kwargs):
+    def _search(self, keyword, **kwargs):
         return self.dom.find(keyword, attrs=kwargs)
 
-    def __search_by_value(self, keyword, value):
+    def _search_by_value(self, keyword, value):
         for tag in self.dom.find_all(keyword):
             if value in tag.attrs.values():
                 return tag
 
-    def __parse(self, html, parser_type):
+    def _parse(self, html, parser_type):
         return self.parser(html, parser_type)
 
-    def __default_parser(self):
+    def _default_parser(self):
         return BeautifulSoup
 
 
@@ -197,12 +197,12 @@ class ElementAnalyzer(object):
             ElementAttributeError: If seo_attr is not an attribute of
                 element
         """
-        if self.__is_empty_element() or seo_attr is not None:
-            return self.__value_from_attr(seo_attr)
-        return self.__node_text()
+        if self._is_empty_element() or seo_attr is not None:
+            return self._value_from_attr(seo_attr)
+        return self._node_text()
 
     ### Private ###
-    def __value_from_attr(self, seo_attr):
+    def _value_from_attr(self, seo_attr):
         attr = 'content'
         if seo_attr is not None:
             # Overwrite the value of the relevant attribute
@@ -215,8 +215,8 @@ class ElementAnalyzer(object):
         else:
             return val
 
-    def __node_text(self):
+    def _node_text(self):
         return self.element.text
 
-    def __is_empty_element(self):
+    def _is_empty_element(self):
         return self.element.is_empty_element
