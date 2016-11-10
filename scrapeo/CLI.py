@@ -10,7 +10,7 @@ line interface to handle arguments passed to the program.
 import re
 
 class QueryBuilder(object):
-    """QueryBuilder
+    """Use a config to separate arbitrary params into individual queries.
 
     Note:
         The `config` optional argument is a complex dictionary. It should
@@ -37,6 +37,10 @@ class QueryBuilder(object):
     def shortcuts(self):
         return self._config.get('shortcuts', {})
 
+    @property
+    def options(self):
+        return self._config.get('options', {})
+
     ### Public ###
     def build_queries(self, params):
         # should return an iterator of built queries
@@ -51,7 +55,7 @@ class QueryBuilder(object):
         return query.build(param_set)
 
     def _new_query(self):
-        return Query(conf=self._config)
+        return Query(shortcuts=self.shortcuts, option_groups=self.options)
 
     def _group_params(self):
         # initialize list to collect all params
@@ -96,9 +100,9 @@ class Query(object):
 
     """
 
-    def __init__(self, conf=None, query_key=None, query_val=None, wildcard_val=None):
-        self.options = conf.get('options', {})
-        self.shortcuts = conf.get('shortcuts', {})
+    def __init__(self, shortcuts=None, option_groups=None, query_key=None, query_val=None, wildcard_val=None):
+        self.options = option_groups or {}
+        self.shortcuts = shortcuts or {}
         self.query_key = query_key or self.default_query_key
         self.query_val = query_val or self.default_query_val
         self._wildcard = wildcard_val or re.compile('.*')
