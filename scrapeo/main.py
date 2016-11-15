@@ -74,9 +74,9 @@ def main():
     # initialize scrapeo
     scrapeo = Scrapeo(html)
     # initialize a QueryBuilder to sort search parameters
-    query_builder = QueryBuilder(vars(args), config=QUERY_BUILDER_CONFIG)
+    query_builder = QueryBuilder(config=QUERY_BUILDER_CONFIG)
 
-    for query in query_builder.prepare_queries():
+    for query in query_builder.build_queries(vars(args)):
         # search for tag using paramters from query
         search_params = {k: v for k, v in query.items() if not k == 'seo_attr'}
         try:

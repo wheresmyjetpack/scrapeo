@@ -69,8 +69,11 @@ class QueryBuilder(object):
         return grouped_params
 
     def _get_options(self):
+        # TODO this grabs the extra params (command, url) and builds a query out of them, which shouldn't be happening
         option_params = []
-        option_params.append({k: v for k, v in self._collected_params.items() if k not in self.shortcuts.keys()})
+        blacklist = ['command', 'url']
+        blacklist.extend(self.shortcuts.keys())
+        option_params.append({k: v for k, v in self._collected_params.items() if k not in blacklist})
         return option_params
 
     def _get_shortcuts(self):

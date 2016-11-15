@@ -10,6 +10,8 @@ from bs4 import BeautifulSoup
 
 import scrapeo.exceptions as exceptions
 
+DEFAULT_ELEMENT = 'meta'
+
 class Scrapeo(object):
     """Parse HTML into an object, search and get relevant element text.
 
@@ -52,7 +54,7 @@ class Scrapeo(object):
             obj: An object representing a HTML element, which minimally
             provides a `text` attribute and a `get` dict-like method.
         """
-        search_term = kwargs.pop('element')
+        search_term = kwargs.pop('element', DEFAULT_ELEMENT)
         return self._dom_search(search_term, **kwargs)
 
     def get_text(self, element, seo_attr=None):
